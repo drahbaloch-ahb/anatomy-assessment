@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prof. Baloch - Anatomy Portal</title>
+    <title>Prof. Baloch Anatomy Portal</title>
     <style>
-        :root { --teal: #1f6f78; --accent: #d3542c; --bg: #f6f1e7; }
-        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 40px; margin: 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 800px; margin-top: 30px; }
-        .card { background: white; padding: 30px; border-radius: 20px; border: 1px solid #e3d6c5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
-        .card h3 { color: var(--teal); font-size: 1.5rem; margin-bottom: 10px; }
-        .btn { background: var(--teal); color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
-        .btn:hover { background: var(--accent); }
+        body { font-family: sans-serif; background: #f6f1e7; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 700px; }
+        .card { background: white; padding: 25px; border-radius: 15px; border: 1px solid #e3d6c5; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn { background: #1f6f78; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1 style="color: #171717;">Clinical Anatomy Assessments</h1>
-    <p style="color: #5b5b5b;">Select a module to begin your case study.</p>
-    
+    <h1>Isra University Anatomy Portal</h1>
+    <p>Select your assessment module:</p>
     <div class="grid">
         <div class="card">
-            <h3>👅 Tongue & Oral Cavity</h3>
-            <p>Case studies on nerve injuries and landmarks.</p>
-            <a href="tongue-quiz.html" class="btn">Select Module</a>
+            <h3>👅 Tongue Quiz</h3>
+            <p>Clinical cases & nerve supplies.</p>
+            <a href="tongue-quiz.html" class="btn">Start Tongue Module</a>
         </div>
-
         <div class="card">
-            <h3>💧 Salivary Glands</h3>
-            <p>Frey's syndrome, duct pathways, and parotid bed.</p>
-            <a href="salivary-quiz.html" class="btn">Select Module</a>
+            <h3>💧 Salivary Quiz</h3>
+            <p>Parotid & Submandibular cases.</p>
+            <a href="salivary-quiz.html" class="btn">Start Salivary Module</a>
         </div>
     </div>
 </body>
