@@ -3,103 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tongue Lecture - Clinical Anatomy</title>
+    <title>Tongue Clinical Assessment - Prof. Baloch</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-
-        :root {
-            --bg: #f6f1e7; --bg-deep: #efe4d6; --ink: #171717; --muted: #5b5b5b;
-            --accent: #d3542c; --accent-light: #ff8f5a; --accent-dark: #b14320;
-            --teal: #1f6f78; --card: #fff7ef; --stroke: #e3d6c5;
-            --shadow: 0 18px 40px rgba(23, 23, 23, 0.12);
-            --radius-md: 12px; --radius-lg: 14px; --radius-2xl: 22px;
-            --font-display: 'Space Grotesk', sans-serif;
-            --font-body: 'IBM Plex Sans', sans-serif;
-            --error: #b54832;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
-            color: var(--ink); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
-        }
-
-        .quiz-container { width: 100%; max-width: 800px; padding: 32px 20px; background: var(--card); border-radius: var(--radius-2xl); border: 1px solid var(--stroke); box-shadow: var(--shadow); }
-        .progress-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .status-bar { display: flex; gap: 16px; font-weight: 500; }
-        .status-correct { color: var(--teal); }
-        .status-wrong { color: var(--error); }
-        .question-text { font-family: var(--font-display); font-size: 1.5em; font-weight: 600; margin-bottom: 32px; line-height: 1.4; }
-        .options-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-        .option-item { background-color: #fff; border: 1px solid var(--stroke); padding: 12px 16px; border-radius: var(--radius-lg); cursor: pointer; transition: 0.2s; }
-        .option-item.selected.correct { background-color: rgba(31, 111, 120, 0.12); border-color: var(--teal); }
-        .option-item.selected.incorrect { background-color: rgba(181, 72, 50, 0.12); border-color: var(--error); }
-        .rationale { font-size: 0.95em; color: var(--muted); margin-top: 8px; display: none; }
+        :root { --teal: #1f6f78; --accent: #d3542c; --bg: #f6f1e7; --card: #fff7ef; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
+        #auth-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .auth-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .btn-start { background: var(--teal); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
+        .hidden { display: none !important; }
+        .option-item { background: white; border: 1px solid #e3d6c5; padding: 15px; margin: 10px 0; border-radius: 12px; cursor: pointer; }
+        .correct { background: #d1e7dd !important; border-color: #a3cfbb !important; }
+        .incorrect { background: #f8d7da !important; border-color: #f5c2c7 !important; }
+        .rationale { font-size: 0.9em; color: #555; margin-top: 10px; display: none; padding: 10px; border-left: 3px solid var(--teal); }
         .selected .rationale { display: block; }
-        .hint-content { margin-top: 20px; padding: 15px; background: #fff; border: 1px solid var(--stroke); border-radius: var(--radius-lg); display: none; }
-        .hint-content.active { display: block; }
-        .navigation { margin-top: 32px; display: flex; justify-content: space-between; }
-        .btn { padding: 10px 20px; border-radius: var(--radius-md); cursor: pointer; border: 1px solid var(--stroke); font-weight: 600; }
-        .btn-next { background: var(--accent); color: white; border: none; }
-        .home-link { display: block; margin-bottom: 20px; color: var(--teal); text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <a href="index.html" class="home-link">← Back to Main Portal</a>
+
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <h2>Isra University Portal</h2>
+            <p>Clinical Anatomy - Tongue Lecture</p>
+            <input type="text" id="studentName" placeholder="Full Name" required>
+            <input type="text" id="rollNo" placeholder="Roll Number" required>
+            <input type="email" id="studentEmail" placeholder="Email (@isra.edu.pk)" required>
+            <button class="btn-start" onclick="startQuiz()">Enter Quiz</button>
+        </div>
+    </div>
+
+    <div class="quiz-container hidden" id="main-quiz">
         <div id="quiz-content"></div>
-        <div id="hint-box" class="hint-content"><strong>💡 Hint:</strong> <span id="hint-text"></span></div>
-        <div class="navigation">
-            <button id="hint-toggle" class="btn">Show Hint</button>
-            <div>
-                <button id="prev-btn" class="btn">Previous</button>
-                <button id="next-btn" class="btn btn-next">Next</button>
-            </div>
+        <div id="navigation" style="margin-top: 20px; display: flex; justify-content: space-between;">
+            <button onclick="prevQuestion()" id="prevBtn" style="padding: 10px 20px; border-radius: 5px; cursor: pointer;">Previous</button>
+            <button onclick="nextQuestion()" id="nextBtn" style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;">Next</button>
         </div>
     </div>
 
     <script>
+        // Use the Script URL from your Google Sheet
+        const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+
         const quizData = [
-            {"question":"A 55-year-old male... tongue is observed to deviate towards the left side. What specific structure is most likely injured?","answerOptions":[{"text":"Left hypoglossal nerve","isCorrect":true,"rationale":"Injury to this nerve causes paralysis of the ipsilateral genioglossus muscle, leading to deviation towards the paralyzed side..."},{"text":"Right hypoglossal nerve","isCorrect":false,"rationale":"An injury to the right hypoglossal nerve would cause the tongue to deviate to the right side..."},{"text":"Lingual nerve","isCorrect":false,"rationale":"The lingual nerve provides general sensation..."},{"text":"Glossopharyngeal nerve","isCorrect":false,"rationale":"This nerve is primarily associated with sensation and taste for the posterior third..."},{"text":"Chorda tympani","isCorrect":false,"rationale":"This branch of the facial nerve carries taste sensation..."}],"hint":"Consider the motor nerve responsible for the action of the genioglossus muscle..."},
-            {"question":"An anesthesiologist is monitoring a patient... tongue falls posteriorly, causing an airway obstruction. Which muscle's relaxation is the primary cause?","answerOptions":[{"text":"Styloglossus","isCorrect":false,"rationale":"..."},{"text":"Hyoglossus","isCorrect":false,"rationale":"..."},{"text":"Palatoglossus","isCorrect":false,"rationale":"..."},{"text":"Genioglossus","isCorrect":true,"rationale":"This fan-shaped muscle makes up the bulk of the tongue and its primary role is to protrude the tongue..."},{"text":"Mylohyoid","isCorrect":false,"rationale":"..."}],"hint":"Think about the largest of the extrinsic tongue muscles..."},
-            {"question":"A patient... prescribed sublingual nitroglycerin... Which vascular structure is primarily responsible for this rapid uptake?","answerOptions":[{"text":"Lingual artery","isCorrect":false,"rationale":"..."},{"text":"Deep lingual vein","isCorrect":true,"rationale":"These large veins are located close to the surface under the thin mucosa..."},{"text":"Submandibular ganglion","isCorrect":false,"rationale":"..."},{"text":"Submental artery","isCorrect":false,"rationale":"..."},{"text":"Jugular vein","isCorrect":false,"rationale":"..."}],"hint":"Look for a superficial vessel located on the inferior surface of the tongue..."},
-            {"question":"During an oral cancer screening... A V-shaped groove is noted... dividing the anterior oral part from the posterior pharyngeal part. What is this landmark?","answerOptions":[{"text":"Median furrow","isCorrect":false,"rationale":"..."},{"text":"Frenulum","isCorrect":false,"rationale":"..."},{"text":"Sulcus terminalis","isCorrect":true,"rationale":"This V-shaped groove correctly identifies the division..."},{"text":"Foramen cecum","isCorrect":false,"rationale":"..."},{"text":"Palatoglossal arch","isCorrect":false,"rationale":"..."}],"hint":"This structure's name suggests it is a terminal groove..."}
+            {"question":"A 55-year-old male presents with a fracture of the mandible. On examination, the tongue is observed to deviate towards the left side when protruded. What specific structure is most likely injured?","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"rationale":"Injury to the hypoglossal nerve causes paralysis of the genioglossus muscle on the same side. The healthy side pushes the tongue toward the injured side."},
+            {"question":"During anesthesia, if a patient's tongue falls posteriorly and causes airway obstruction, which muscle's relaxation is the primary cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"rationale":"The genioglossus is the safety muscle of the tongue; it protrudes the tongue to keep the airway open."},
+            {"question":"Sublingual nitroglycerin is administered for rapid uptake into the systemic circulation. Which vascular structure is primarily responsible for this?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"rationale":"The deep lingual veins are superficial and provide a direct route to the systemic circulation, bypassing the liver."},
+            {"question":"What landmark divides the anterior oral part of the tongue from the posterior pharyngeal part?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"rationale":"The sulcus terminalis is the V-shaped groove that separates the two-thirds anterior and one-third posterior parts."}
         ];
 
-        let currentIndex = 0;
-        let state = quizData.map(() => ({ selectedIndex: null, hintVisible: false }));
+        let currentIdx = 0;
+        let studentData = {};
+        let score = 0;
 
-        function render() {
-            const q = quizData[currentIndex];
-            const s = state[currentIndex];
-            const correctCount = state.filter((item, i) => item.selectedIndex !== null && quizData[i].answerOptions[item.selectedIndex].isCorrect).length;
-            
-            document.getElementById('quiz-content').innerHTML = `
-                <div class="progress-container">
-                    <span>Question ${currentIndex + 1} of ${quizData.length}</span>
-                    <div class="status-bar"><span class="status-correct">✓ ${correctCount}</span></div>
-                </div>
-                <div class="question-text">${q.question}</div>
-                <ul class="options-list">
-                    ${q.answerOptions.map((opt, i) => `
-                        <li class="option-item ${s.selectedIndex === i ? 'selected ' + (opt.isCorrect ? 'correct' : 'incorrect') : ''}" onclick="select(${i})">
-                            <strong>${String.fromCharCode(65+i)}.</strong> ${opt.text}
-                            <div class="rationale">${opt.rationale}</div>
-                        </li>
-                    `).join('')}
-                </ul>`;
-            
-            document.getElementById('hint-text').innerText = q.hint;
-            document.getElementById('hint-box').style.display = s.hintVisible ? 'block' : 'none';
-            document.getElementById('prev-btn').disabled = currentIndex === 0;
-            document.getElementById('next-btn').disabled = currentIndex === quizData.length - 1;
+        function startQuiz() {
+            const name = document.getElementById('studentName').value;
+            const roll = document.getElementById('rollNo').value;
+            const email = document.getElementById('studentEmail').value;
+
+            if(!name || !roll || !email.endsWith('@isra.edu.pk')) {
+                alert("Please use your @isra.edu.pk email to proceed.");
+                return;
+            }
+
+            studentData = { name, roll, email };
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-quiz').classList.remove('hidden');
+            render();
         }
 
-        window.select = (i) => { if(state[currentIndex].selectedIndex === null) { state[currentIndex].selectedIndex = i; render(); } };
-        document.getElementById('hint-toggle').onclick = () => { state[currentIndex].hintVisible = !state[currentIndex].hintVisible; render(); };
-        document.getElementById('prev-btn').onclick = () => { if(currentIndex > 0) { currentIndex--; render(); } };
-        document.getElementById('next-btn').onclick = () => { if(currentIndex < quizData.length - 1) { currentIndex++; render(); } };
-        render();
+        function render() {
+            const q = quizData[currentIdx];
+            let html = `<h3>Question ${currentIdx + 1} of ${quizData.length}</h3><p style="font-size: 1.2em;">${q.question}</p>`;
+            q.options.forEach((opt, i) => {
+                html += `<div class="option-item" id="opt-${i}" onclick="check(${i})">${String.fromCharCode(65+i)}. ${opt}<div class="rationale">${q.rationale}</div></div>`;
+            });
+            document.getElementById('quiz-content').innerHTML = html;
+        }
+
+        function check(idx) {
+            const q = quizData[currentIdx];
+            const el = document.getElementById(`opt-${idx}`);
+            if(el.parentElement.classList.contains('locked')) return;
+            
+            el.classList.add('selected');
+            el.parentElement.classList.add('locked');
+            
+            if(idx === q.answer) {
+                el.classList.add('correct');
+                score++;
+            } else {
+                el.classList.add('incorrect');
+                document.getElementById(`opt-${q.answer}`).classList.add('correct');
+            }
+
+            if(currentIdx === quizData.length - 1) {
+                setTimeout(sendData, 1000);
+            }
+        }
+
+        function sendData() {
+            const finalData = { ...studentData, score: score + "/" + quizData.length, topic: "Tongue" };
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(finalData) })
+            .then(() => alert("Assessment complete. Your results have been sent to Prof. Baloch."));
+        }
+
+        function nextQuestion() { if(currentIdx < quizData.length - 1) { currentIdx++; render(); } }
+        function prevQuestion() { if(currentIdx > 0) { currentIdx--; render(); } }
     </script>
 </body>
 </html>
