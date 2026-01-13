@@ -7,7 +7,7 @@
     <style>
         :root { --teal: #1f6f78; --accent: #d3542c; --bg: #f6f1e7; --card: #fff7ef; }
         body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(0,0,0,0.1); border: 1px solid #e3d6c5; }
+        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: var(--card); border-radius: 22px; border: 1px solid #e3d6c5; box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
         #auth-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .auth-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
         input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
@@ -18,7 +18,7 @@
         .incorrect { background: #f8d7da !important; border-color: #f5c2c7 !important; }
         .rationale { font-size: 0.9em; color: #555; margin-top: 10px; display: none; padding: 10px; border-left: 3px solid var(--teal); background: #f9f9f9; }
         .selected .rationale { display: block; }
-        .hint-box { background: #fff; padding: 15px; border-radius: 10px; border: 1px dashed var(--teal); margin-top: 15px; display: none; }
+        .hint-box { background: #fff; padding: 15px; border-radius: 10px; border: 1px dashed var(--teal); margin-top: 15px; display: none; color: #555; font-style: italic; }
     </style>
 </head>
 <body>
@@ -38,22 +38,18 @@
         <div id="quiz-content"></div>
         <div id="hint-text" class="hint-box"></div>
         <div id="navigation" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-            <button onclick="toggleHint()" style="padding: 10px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">💡 Show Hint</button>
+            <button onclick="toggleHint()" style="padding: 10px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: white;">💡 Show Hint</button>
             <div style="font-weight: bold; color: var(--teal);" id="counter"></div>
-            <button onclick="nextQuestion()" id="nextBtn" style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;">Next Question</button>
+            <button id="nextBtn" onclick="handleNext()" style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;">Next Question</button>
         </div>
     </div>
 
-    <div id="finish-screen" class="hidden" style="text-align: center; padding: 40px; background: white; border-radius: 20px;">
-        <h2 style="color: var(--teal);">Assessment Complete!</h2>
-        <p>Your results have been recorded by Prof. Baloch.</p>
-        <button onclick="location.href='index.html'" class="btn-start">Back to Portal</button>
-    </div>
-
     <script>
+        // Replace with your Google Script URL
         const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+
         const quizData = [
-            {"question":"A 55-year-old male... tongue deviates towards the left side...","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"hint":"Consider the motor nerve responsible for genioglossus protrusion.","rationale":"Injury causes paralysis of the ipsilateral genioglossus..."},
+            {"question":"A 55-year-old male... tongue deviates towards the left side...","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"hint":"Consider the motor nerve responsible for genioglossus protrusion.","rationale":"Injury causes paralysis of the ipsilateral genioglossus muscle."},
             {"question":"Anesthetized patient... tongue falls posteriorly... cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"hint":"Think about the bulk of the tongue that prevents airway blockage.","rationale":"The genioglossus is the primary protruder of the tongue."},
             {"question":"Sublingual nitroglycerin uptake... structure?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"hint":"Look for a superficial vessel on the inferior surface.","rationale":"Deep lingual veins provide rapid systemic absorption."},
             {"question":"V-shaped groove dividing anterior/posterior tongue?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"hint":"Its name suggests a terminal boundary.","rationale":"The sulcus terminalis is the V-shaped division."}
@@ -65,9 +61,11 @@
         let selectedAnswers = Array(quizData.length).fill(null);
 
         function startQuiz() {
+            const name = document.getElementById('studentName').value;
+            const roll = document.getElementById('rollNo').value;
             const email = document.getElementById('studentEmail').value;
-            if(!email.endsWith('@isra.edu.pk')) { alert("Use @isra.edu.pk email"); return; }
-            studentData = { name: document.getElementById('studentName').value, roll: document.getElementById('rollNo').value, email: email };
+            if(!email.endsWith('@isra.edu.pk')) { alert("Please use your @isra.edu.pk email."); return; }
+            studentData = { name, roll, email };
             document.getElementById('auth-overlay').classList.add('hidden');
             document.getElementById('main-quiz').classList.remove('hidden');
             render();
@@ -88,7 +86,7 @@
             document.getElementById('quiz-content').innerHTML = html;
             document.getElementById('hint-text').innerText = "Hint: " + q.hint;
             document.getElementById('hint-text').style.display = "none";
-            document.getElementById('nextBtn').innerText = currentIdx === quizData.length - 1 ? "Finish Quiz" : "Next Question";
+            document.getElementById('nextBtn').innerText = currentIdx === quizData.length - 1 ? "Finish & Submit" : "Next Question";
         }
 
         function check(idx) {
@@ -103,23 +101,22 @@
             h.style.display = h.style.display === "none" ? "block" : "none";
         }
 
-        function nextQuestion() {
-            if(selectedAnswers[currentIdx] === null) { alert("Please select an answer first."); return; }
+        function handleNext() {
+            if(selectedAnswers[currentIdx] === null) { alert("Please select an answer."); return; }
             if(currentIdx < quizData.length - 1) {
                 currentIdx++;
                 render();
             } else {
-                finishQuiz();
+                submitResults();
             }
         }
 
-        function finishQuiz() {
-            document.getElementById('main-quiz').innerHTML = "<h2>Sending results...</h2>";
+        function submitResults() {
+            document.getElementById('main-quiz').innerHTML = "<h2>Sending results to Prof. Baloch...</h2>";
             const final = { ...studentData, score: `${score}/${quizData.length}`, topic: "Tongue" };
             fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(final) })
             .then(() => {
-                document.getElementById('main-quiz').classList.add('hidden');
-                document.getElementById('finish-screen').classList.remove('hidden');
+                document.getElementById('main-quiz').innerHTML = "<h2 style='color:var(--teal)'>Assessment Complete!</h2><p>Your score has been recorded. You can now close this page or return to the main portal.</p><button onclick=\"location.href='index.html'\" class='btn-start'>Back to Portal</button>";
             });
         }
     </script>
