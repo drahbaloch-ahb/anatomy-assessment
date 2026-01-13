@@ -7,7 +7,7 @@
     <style>
         :root { --teal: #1f6f78; --accent: #d3542c; --bg: #f6f1e7; --card: #fff7ef; }
         body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
+        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(0,0,0,0.1); border: 1px solid #e3d6c5; }
         #auth-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .auth-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
         input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
@@ -16,15 +16,16 @@
         .option-item { background: white; border: 1px solid #e3d6c5; padding: 15px; margin: 10px 0; border-radius: 12px; cursor: pointer; }
         .correct { background: #d1e7dd !important; border-color: #a3cfbb !important; }
         .incorrect { background: #f8d7da !important; border-color: #f5c2c7 !important; }
-        .rationale { font-size: 0.9em; color: #555; margin-top: 10px; display: none; padding: 10px; border-left: 3px solid var(--teal); }
+        .rationale { font-size: 0.9em; color: #555; margin-top: 10px; display: none; padding: 10px; border-left: 3px solid var(--teal); background: #f9f9f9; }
         .selected .rationale { display: block; }
+        .hint-box { background: #fff; padding: 15px; border-radius: 10px; border: 1px dashed var(--teal); margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
 
     <div id="auth-overlay">
         <div class="auth-card">
-            <h2>Isra University Portal</h2>
+            <h2 style="color: var(--teal);">Isra University Portal</h2>
             <p>Clinical Anatomy - Tongue Lecture</p>
             <input type="text" id="studentName" placeholder="Full Name" required>
             <input type="text" id="rollNo" placeholder="Roll Number" required>
@@ -35,81 +36,92 @@
 
     <div class="quiz-container hidden" id="main-quiz">
         <div id="quiz-content"></div>
-        <div id="navigation" style="margin-top: 20px; display: flex; justify-content: space-between;">
-            <button onclick="prevQuestion()" id="prevBtn" style="padding: 10px 20px; border-radius: 5px; cursor: pointer;">Previous</button>
-            <button onclick="nextQuestion()" id="nextBtn" style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;">Next</button>
+        <div id="hint-text" class="hint-box"></div>
+        <div id="navigation" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <button onclick="toggleHint()" style="padding: 10px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">💡 Show Hint</button>
+            <div style="font-weight: bold; color: var(--teal);" id="counter"></div>
+            <button onclick="nextQuestion()" id="nextBtn" style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;">Next Question</button>
         </div>
     </div>
 
-    <script>
-        // Use the Script URL from your Google Sheet
-        const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+    <div id="finish-screen" class="hidden" style="text-align: center; padding: 40px; background: white; border-radius: 20px;">
+        <h2 style="color: var(--teal);">Assessment Complete!</h2>
+        <p>Your results have been recorded by Prof. Baloch.</p>
+        <button onclick="location.href='index.html'" class="btn-start">Back to Portal</button>
+    </div>
 
+    <script>
+        const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
         const quizData = [
-            {"question":"A 55-year-old male presents with a fracture of the mandible. On examination, the tongue is observed to deviate towards the left side when protruded. What specific structure is most likely injured?","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"rationale":"Injury to the hypoglossal nerve causes paralysis of the genioglossus muscle on the same side. The healthy side pushes the tongue toward the injured side."},
-            {"question":"During anesthesia, if a patient's tongue falls posteriorly and causes airway obstruction, which muscle's relaxation is the primary cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"rationale":"The genioglossus is the safety muscle of the tongue; it protrudes the tongue to keep the airway open."},
-            {"question":"Sublingual nitroglycerin is administered for rapid uptake into the systemic circulation. Which vascular structure is primarily responsible for this?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"rationale":"The deep lingual veins are superficial and provide a direct route to the systemic circulation, bypassing the liver."},
-            {"question":"What landmark divides the anterior oral part of the tongue from the posterior pharyngeal part?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"rationale":"The sulcus terminalis is the V-shaped groove that separates the two-thirds anterior and one-third posterior parts."}
+            {"question":"A 55-year-old male... tongue deviates towards the left side...","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"hint":"Consider the motor nerve responsible for genioglossus protrusion.","rationale":"Injury causes paralysis of the ipsilateral genioglossus..."},
+            {"question":"Anesthetized patient... tongue falls posteriorly... cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"hint":"Think about the bulk of the tongue that prevents airway blockage.","rationale":"The genioglossus is the primary protruder of the tongue."},
+            {"question":"Sublingual nitroglycerin uptake... structure?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"hint":"Look for a superficial vessel on the inferior surface.","rationale":"Deep lingual veins provide rapid systemic absorption."},
+            {"question":"V-shaped groove dividing anterior/posterior tongue?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"hint":"Its name suggests a terminal boundary.","rationale":"The sulcus terminalis is the V-shaped division."}
         ];
 
         let currentIdx = 0;
         let studentData = {};
         let score = 0;
+        let selectedAnswers = Array(quizData.length).fill(null);
 
         function startQuiz() {
-            const name = document.getElementById('studentName').value;
-            const roll = document.getElementById('rollNo').value;
             const email = document.getElementById('studentEmail').value;
-
-            if(!name || !roll || !email.endsWith('@isra.edu.pk')) {
-                alert("Please use your @isra.edu.pk email to proceed.");
-                return;
-            }
-
-            studentData = { name, roll, email };
-            document.getElementById('auth-overlay').style.display = 'none';
+            if(!email.endsWith('@isra.edu.pk')) { alert("Use @isra.edu.pk email"); return; }
+            studentData = { name: document.getElementById('studentName').value, roll: document.getElementById('rollNo').value, email: email };
+            document.getElementById('auth-overlay').classList.add('hidden');
             document.getElementById('main-quiz').classList.remove('hidden');
             render();
         }
 
         function render() {
             const q = quizData[currentIdx];
-            let html = `<h3>Question ${currentIdx + 1} of ${quizData.length}</h3><p style="font-size: 1.2em;">${q.question}</p>`;
+            document.getElementById('counter').innerText = `Case ${currentIdx + 1} of ${quizData.length}`;
+            let html = `<h3>Question ${currentIdx + 1}</h3><p style="font-size: 1.1em;">${q.question}</p>`;
             q.options.forEach((opt, i) => {
-                html += `<div class="option-item" id="opt-${i}" onclick="check(${i})">${String.fromCharCode(65+i)}. ${opt}<div class="rationale">${q.rationale}</div></div>`;
+                let status = "";
+                if(selectedAnswers[currentIdx] !== null) {
+                    if(i === q.answer) status = "correct selected";
+                    else if(i === selectedAnswers[currentIdx]) status = "incorrect selected";
+                }
+                html += `<div class="option-item ${status}" onclick="check(${i})">${String.fromCharCode(65+i)}. ${opt}<div class="rationale">${q.rationale}</div></div>`;
             });
             document.getElementById('quiz-content').innerHTML = html;
+            document.getElementById('hint-text').innerText = "Hint: " + q.hint;
+            document.getElementById('hint-text').style.display = "none";
+            document.getElementById('nextBtn').innerText = currentIdx === quizData.length - 1 ? "Finish Quiz" : "Next Question";
         }
 
         function check(idx) {
-            const q = quizData[currentIdx];
-            const el = document.getElementById(`opt-${idx}`);
-            if(el.parentElement.classList.contains('locked')) return;
-            
-            el.classList.add('selected');
-            el.parentElement.classList.add('locked');
-            
-            if(idx === q.answer) {
-                el.classList.add('correct');
-                score++;
+            if(selectedAnswers[currentIdx] !== null) return;
+            selectedAnswers[currentIdx] = idx;
+            if(idx === quizData[currentIdx].answer) score++;
+            render();
+        }
+
+        function toggleHint() {
+            const h = document.getElementById('hint-text');
+            h.style.display = h.style.display === "none" ? "block" : "none";
+        }
+
+        function nextQuestion() {
+            if(selectedAnswers[currentIdx] === null) { alert("Please select an answer first."); return; }
+            if(currentIdx < quizData.length - 1) {
+                currentIdx++;
+                render();
             } else {
-                el.classList.add('incorrect');
-                document.getElementById(`opt-${q.answer}`).classList.add('correct');
-            }
-
-            if(currentIdx === quizData.length - 1) {
-                setTimeout(sendData, 1000);
+                finishQuiz();
             }
         }
 
-        function sendData() {
-            const finalData = { ...studentData, score: score + "/" + quizData.length, topic: "Tongue" };
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(finalData) })
-            .then(() => alert("Assessment complete. Your results have been sent to Prof. Baloch."));
+        function finishQuiz() {
+            document.getElementById('main-quiz').innerHTML = "<h2>Sending results...</h2>";
+            const final = { ...studentData, score: `${score}/${quizData.length}`, topic: "Tongue" };
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(final) })
+            .then(() => {
+                document.getElementById('main-quiz').classList.add('hidden');
+                document.getElementById('finish-screen').classList.remove('hidden');
+            });
         }
-
-        function nextQuestion() { if(currentIdx < quizData.length - 1) { currentIdx++; render(); } }
-        function prevQuestion() { if(currentIdx > 0) { currentIdx--; render(); } }
     </script>
 </body>
 </html>
