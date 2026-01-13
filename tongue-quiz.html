@@ -13,12 +13,12 @@
         input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
         .btn-start { background: var(--teal); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
         .hidden { display: none !important; }
-        .option-item { background: white; border: 1px solid #e3d6c5; padding: 15px; margin: 10px 0; border-radius: 12px; cursor: pointer; }
+        .option-item { background: white; border: 1px solid #e3d6c5; padding: 15px; margin: 10px 0; border-radius: 12px; cursor: pointer; position: relative; }
         .correct { background: #d1e7dd !important; border-color: #a3cfbb !important; }
         .incorrect { background: #f8d7da !important; border-color: #f5c2c7 !important; }
         .rationale { font-size: 0.9em; color: #555; margin-top: 10px; display: none; padding: 10px; border-left: 3px solid var(--teal); background: #f9f9f9; }
         .selected .rationale { display: block; }
-        .hint-box { background: #fff; padding: 15px; border-radius: 10px; border: 1px dashed var(--teal); margin-top: 15px; display: none; color: #555; font-style: italic; }
+        .hint-box { background: #fff; padding: 15px; border-radius: 10px; border: 1px dashed var(--teal); margin-top: 15px; display: none; color: #555; }
     </style>
 </head>
 <body>
@@ -45,14 +45,13 @@
     </div>
 
     <script>
-        // Replace with your Google Script URL
-        const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+        const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; // MUST REPLACE THIS
 
         const quizData = [
-            {"question":"A 55-year-old male... tongue deviates towards the left side...","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"hint":"Consider the motor nerve responsible for genioglossus protrusion.","rationale":"Injury causes paralysis of the ipsilateral genioglossus muscle."},
-            {"question":"Anesthetized patient... tongue falls posteriorly... cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"hint":"Think about the bulk of the tongue that prevents airway blockage.","rationale":"The genioglossus is the primary protruder of the tongue."},
-            {"question":"Sublingual nitroglycerin uptake... structure?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"hint":"Look for a superficial vessel on the inferior surface.","rationale":"Deep lingual veins provide rapid systemic absorption."},
-            {"question":"V-shaped groove dividing anterior/posterior tongue?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"hint":"Its name suggests a terminal boundary.","rationale":"The sulcus terminalis is the V-shaped division."}
+            {"question":"A 55-year-old male... tongue deviates towards the left side...","options":["Left hypoglossal nerve","Right hypoglossal nerve","Lingual nerve","Glossopharyngeal nerve","Chorda tympani"],"answer":0,"hint":"Check motor supply to Genioglossus.","rationale":"Injury to the hypoglossal nerve causes paralysis of the ipsilateral genioglossus muscle."},
+            {"question":"Anesthetized patient... tongue falls posteriorly... cause?","options":["Styloglossus","Hyoglossus","Palatoglossus","Genioglossus","Mylohyoid"],"answer":3,"hint":"It's the safety muscle of the tongue.","rationale":"The genioglossus is the primary muscle that protrudes the tongue."},
+            {"question":"Sublingual nitroglycerin uptake... structure?","options":["Lingual artery","Deep lingual vein","Submandibular ganglion","Submental artery","Jugular vein"],"answer":1,"hint":"Vessels on the inferior surface.","rationale":"Deep lingual veins allow rapid absorption into systemic circulation."},
+            {"question":"V-shaped groove dividing anterior/posterior tongue?","options":["Median furrow","Frenulum","Sulcus terminalis","Foramen cecum","Palatoglossal arch"],"answer":2,"hint":"V-shaped groove.","rationale":"The sulcus terminalis divides the anterior 2/3 and posterior 1/3."}
         ];
 
         let currentIdx = 0;
@@ -64,9 +63,9 @@
             const name = document.getElementById('studentName').value;
             const roll = document.getElementById('rollNo').value;
             const email = document.getElementById('studentEmail').value;
-            if(!email.endsWith('@isra.edu.pk')) { alert("Please use your @isra.edu.pk email."); return; }
+            if(!name || !roll || !email.endsWith('@isra.edu.pk')) { alert("Fill all fields with @isra.edu.pk email."); return; }
             studentData = { name, roll, email };
-            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('auth-overlay').style.display = 'none';
             document.getElementById('main-quiz').classList.remove('hidden');
             render();
         }
@@ -116,7 +115,7 @@
             const final = { ...studentData, score: `${score}/${quizData.length}`, topic: "Tongue" };
             fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(final) })
             .then(() => {
-                document.getElementById('main-quiz').innerHTML = "<h2 style='color:var(--teal)'>Assessment Complete!</h2><p>Your score has been recorded. You can now close this page or return to the main portal.</p><button onclick=\"location.href='index.html'\" class='btn-start'>Back to Portal</button>";
+                document.getElementById('main-quiz').innerHTML = "<h2>Success!</h2><p>Results recorded. Thank you.</p><button onclick=\"location.href='index.html'\" class='btn-start'>Return to Portal</button>";
             });
         }
     </script>
