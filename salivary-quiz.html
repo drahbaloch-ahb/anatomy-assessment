@@ -9,75 +9,115 @@
         :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; --font-display: 'Space Grotesk', sans-serif; }
         body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 22px; border: 1px solid var(--stroke); box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
-        .question-text { font-family: var(--font-display); font-size: 1.4em; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
-        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 16px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: 0.2s; }
-        .option-item.correct { background: rgba(31, 111, 120, 0.1) !important; border: 2px solid var(--teal) !important; }
-        .option-item.incorrect { background: rgba(181, 72, 50, 0.1) !important; border: 2px solid #b54832 !important; }
-        .rationale { font-size: 0.95em; margin-top: 10px; color: #444; display: none; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); }
+        .question-text { font-family: var(--font-display); font-size: 1.3em; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 16px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: 0.2s; border-left: 5px solid transparent; }
+        .option-item.correct { background: rgba(31, 111, 120, 0.05); border-left: 5px solid var(--teal); border-color: var(--teal); }
+        .option-item.incorrect { background: rgba(181, 72, 50, 0.05); border-left: 5px solid #b54832; border-color: #b54832; }
+        .rationale { font-size: 0.95em; margin-top: 10px; color: #444; display: none; padding-top: 10px; border-top: 1px dotted #ccc; }
         .btn { padding: 12px 24px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; }
-        textarea { width: 100%; height: 100px; padding: 12px; border-radius: 8px; border: 1px solid var(--stroke); font-family: inherit; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="quiz-ui">
+        <div id="login-gate" style="text-align:center;">
+            <h2 style="color:var(--teal)">Isra University Dental Portal</h2>
+            <p>Clinical Anatomy: Salivary Glands</p>
+            <input type="text" id="student_name" placeholder="Full Name">
+            <input type="email" id="student_email" placeholder="student@isra.edu.pk">
+            <button class="btn" onclick="startQuiz()">Start Clinical Assessment</button>
+        </div>
+
+        <div id="quiz-ui" style="display:none;">
             <div id="quiz-content"></div>
+            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
             <div style="margin-top:25px; display:flex; justify-content:space-between;">
                 <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="toggleHint()">Hint</button>
                 <div style="display:flex; gap:10px;">
-                    <button class="btn" id="prev-btn" onclick="prev()">Previous</button>
+                    <button class="btn" onclick="prev()">Previous</button>
                     <button class="btn" id="next-btn" onclick="next()">Next</button>
-                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFeedbackScreen()">Finish & Submit Feedback</button>
+                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFeedback()">Finish & Submit</button>
                 </div>
             </div>
-            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
         </div>
 
-        <div id="feedback-screen" style="display:none; text-align:center;">
+        <div id="feedback-ui" style="display:none; text-align:center;">
             <h2 style="color:var(--teal)">Assessment Complete</h2>
-            <p>Please provide your feedback on this clinical module:</p>
-            <textarea id="student-comment" placeholder="Type your comments or questions for Prof. Baloch here..."></textarea>
-            <br><br>
-            <button class="btn" onclick="submitFinal()">Submit and Return to Portal</button>
+            <p>Provide feedback for Prof. Baloch:</p>
+            <textarea id="feedback_text" placeholder="Write your comments here..."></textarea>
+            <button class="btn" id="submit-btn" onclick="submitToSheet()">Submit to Portal</button>
         </div>
     </div>
 
     <script>
         const quizData = [
-            { q: "A 45-year-old male undergoes surgery... he notices sweating on his cheek when eating (Frey's syndrome). Which nerve is responsible?", options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, rat: "The auriculotemporal nerve carries postganglionic parasympathetic fibers to the parotid.", hint: "Focus on secretomotor fibers." },
-            { q: "To enter the oral vestibule, the parotid duct must pierce which muscle?", options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, rat: "The parotid duct pierces the buccinator muscle opposite the 2nd upper molar.", hint: "The main muscle of the cheek." },
-            { q: "Which structure is located most medially within the parotid bed?", options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, rat: "The external carotid artery is the deepest structure passing through the gland.", hint: "Identify the deepest neurovascular element." },
-            { q: "Which nerve loops inferiorly around the submandibular duct?", options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, rat: "The lingual nerve loops under the submandibular duct to reach the tongue.", hint: "General sensation nerve for the anterior 2/3 of the tongue." }
+            { q: "A 45-year-old male undergoes surgery for a tumor within his parotid gland. Several months post-operation, he notices sweating on the skin of his cheek whenever he eats. Which nerve's regenerating parasympathetic fibers are responsible for this condition, known as Frey's syndrome?", 
+              options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, 
+              rat: "The auriculotemporal nerve carries postganglionic parasympathetic fibers to the parotid gland. After injury, these fibers can misroute to sweat glands.", 
+              hint: "Focus on the nerve that directly carries the postganglionic secretomotor fibers." },
+            { q: "A patient presents with painful swelling over the angle of the jaw, and a diagnosis of acute parotitis is made. To enter the oral vestibule, the parotid duct must pierce which muscle?", 
+              options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, 
+              rat: "The parotid duct (Stensen's duct) pierces the buccinator muscle at the level of the upper second molar.", 
+              hint: "Consider the muscle that constitutes the main substance of the cheek wall." },
+            { q: "During a surgical procedure involving the parotid gland, a surgeon identifies several structures within its substance. Which of the following structures is located most medially within the parotid bed?", 
+              options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, 
+              rat: "The External Carotid Artery is the deepest (most medial) major structure in the parotid gland.", 
+              hint: "Recall the arrangement of structures from superficial (lateral) to deep (medial)." },
+            { q: "A surgeon is performing an excision of the submandibular gland. During the dissection, the submandibular duct is identified. Which nerve loops inferiorly around this duct?", 
+              options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, 
+              rat: "The lingual nerve loops under the submandibular duct from lateral to medial as it heads toward the tongue.", 
+              hint: "Think of the nerve that provides general sensation to the anterior two-thirds of the tongue." }
         ];
 
         let cur = 0, state = quizData.map(() => null);
+        let studentData = {};
+
+        function startQuiz() {
+            const name = document.getElementById('student_name').value;
+            const email = document.getElementById('student_email').value;
+            if(!name || !email.includes('@')) return alert("Please enter valid credentials.");
+            studentData = { name, email };
+            document.getElementById('login-gate').style.display = 'none';
+            document.getElementById('quiz-ui').style.display = 'block';
+            render();
+        }
 
         function render() {
-            const data = quizData[cur];
-            let html = `<div class="question-text">${data.q}</div>`;
-            data.options.forEach((o, i) => {
+            const d = quizData[cur];
+            let html = `<div class="question-text">${d.q}</div>`;
+            d.options.forEach((o, i) => {
                 const isSel = state[cur] === i;
-                const cls = isSel ? (i === data.correct ? 'correct' : 'incorrect') : '';
+                const cls = isSel ? (i === d.correct ? 'correct' : 'incorrect') : '';
                 html += `<div class="option-item ${cls}" onclick="select(${i})">
                     <strong>${String.fromCharCode(65+i)}.</strong> ${o}
-                    <div class="rationale" style="display:${isSel?'block':'none'}">${data.rat}</div>
+                    <div class="rationale" style="display:${isSel?'block':'none'}">${d.rat}</div>
                 </div>`;
             });
             document.getElementById('quiz-content').innerHTML = html;
-            document.getElementById('hint-text').innerText = data.hint;
+            document.getElementById('hint-text').innerText = d.hint;
             document.getElementById('hint-box').style.display = 'none';
-            document.getElementById('prev-btn').disabled = (cur === 0);
-            document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
             document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
+            document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
         }
 
         function select(i) { if(state[cur] === null) { state[cur] = i; render(); } }
         function next() { if(cur < quizData.length-1) { cur++; render(); } }
         function prev() { if(cur > 0) { cur--; render(); } }
         function toggleHint() { const b = document.getElementById('hint-box'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; }
-        function showFeedbackScreen() { document.getElementById('quiz-ui').style.display = 'none'; document.getElementById('feedback-screen').style.display = 'block'; }
-        function submitFinal() { window.location.href = 'index.html'; }
-        render();
+        function showFeedback() { document.getElementById('quiz-ui').style.display='none'; document.getElementById('feedback-ui').style.display='block'; }
+
+        async function submitToSheet() {
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true; btn.innerText = "Saving...";
+            const payload = { ...studentData, feedback: document.getElementById('feedback_text').value, score: state.filter((s,i)=>s===quizData[i].correct).length };
+            
+            try {
+                // REPLACE WITH YOUR ACTUAL GOOGLE SCRIPT URL
+                await fetch('YOUR_APPS_SCRIPT_URL', { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                alert("Thank you! Recorded successfully.");
+                window.location.href = 'index.html';
+            } catch(e) { alert("Error saving data."); btn.disabled = false; }
+        }
     </script>
 </body>
 </html>
