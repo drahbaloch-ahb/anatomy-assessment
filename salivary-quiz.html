@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salivary Glands Assessment - Prof. Baloch</title>
+    <title>Salivary Glands Clinical Assessment</title>
     <style>
-        /* [PROFESSOR: Kept your original style settings] */
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-        :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --card: #fff7ef; --stroke: #e3d6c5; --shadow: 0 18px 40px rgba(23, 23, 23, 0.12); }
-        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .quiz-container { width: 100%; max-width: 800px; padding: 32px; background: var(--card); border-radius: 22px; border: 1px solid var(--stroke); box-shadow: var(--shadow); }
-        .question-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.5em; font-weight: 600; margin-bottom: 24px; line-height: 1.4; }
-        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 10px; list-style:none; }
-        .option-item.selected.correct { background: rgba(31, 111, 120, 0.1); border-color: var(--teal); }
-        .option-item.selected.incorrect { background: rgba(181, 72, 50, 0.1); border-color: #b54832; }
-        .rationale { font-size: 0.9em; margin-top: 8px; color: #5b5b5b; display: none; }
-        .selected .rationale { display: block; }
-        .btn { padding: 10px 20px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; }
-        #login-gate { text-align: center; }
-        input { padding: 12px; width: 80%; margin-bottom: 10px; border: 1px solid var(--stroke); border-radius: 8px; }
+        :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; --font-display: 'Space Grotesk', sans-serif; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .quiz-container { width: 90%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 22px; border: 1px solid var(--stroke); box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
+        .question-text { font-family: var(--font-display); font-size: 1.4em; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
+        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; list-style: none; transition: 0.2s; }
+        .option-item.correct { background: rgba(31, 111, 120, 0.1); border-color: var(--teal); }
+        .option-item.incorrect { background: rgba(181, 72, 50, 0.1); border-color: #b54832; }
+        .rationale { font-size: 0.9em; margin-top: 8px; color: #5b5b5b; display: none; border-top: 1px solid #eee; padding-top: 8px; }
+        .btn { padding: 12px 24px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; }
+        #login-gate input { padding: 12px; width: 85%; margin-bottom: 12px; border: 1px solid var(--stroke); border-radius: 8px; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="login-gate">
+        <div id="login-gate" style="text-align:center;">
             <h2 style="color:var(--teal)">Isra University Portal</h2>
-            <p>Enter Student Details (Salivary Module):</p>
+            <p>Clinical Anatomy: Salivary Glands Module</p>
             <input type="text" id="name" placeholder="Full Name"><br>
             <input type="text" id="roll" placeholder="Roll Number"><br>
             <input type="email" id="email" placeholder="student@isra.edu.pk"><br>
@@ -34,55 +31,84 @@
 
         <div id="quiz-ui" style="display:none;">
             <div id="quiz-content"></div>
-            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; border:1px solid var(--stroke); background:#fff; border-radius:10px;">💡 <span id="hint-text"></span></div>
-            <div style="margin-top:25px; display:flex; justify-content:space-between;">
+            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
+            
+            <div id="nav-controls" style="margin-top:25px; display:flex; justify-content:space-between;">
                 <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="toggleHint()">Hint</button>
                 <div style="display:flex; gap:10px;">
-                    <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="prev()">Prev</button>
-                    <button class="btn" onclick="next()">Next</button>
-                    <button id="home-btn" class="btn" style="background:var(--accent); display:none;" onclick="window.location.href='index.html'">Finish & Return</button>
+                    <button class="btn" id="prev-btn" onclick="prev()">Previous</button>
+                    <button class="btn" id="next-btn" onclick="next()">Next</button>
+                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFinalFeedback()">Finish & Feedback</button>
                 </div>
             </div>
+        </div>
+
+        <div id="feedback-area" style="display:none; text-align:center;">
+            <h2 style="color:var(--teal)">Excellent Work!</h2>
+            <p>Congratulations, Prof. Baloch's Student!</p>
+            <div style="background:#fff; padding:15px; border-radius:12px; margin:20px 0; border:1px solid var(--stroke); text-align:left;">
+                <strong>Clinical Recap:</strong>
+                <ul>
+                    <li>Frey's Syndrome involves the <b>Auriculotemporal Nerve</b>.</li>
+                    <li>The Parotid Duct pierces the <b>Buccinator</b>.</li>
+                    <li>The Lingual Nerve loops under the <b>Submandibular Duct</b>.</li>
+                </ul>
+            </div>
+            
+            <button class="btn" onclick="window.location.href='index.html'">Return to Main Portal</button>
         </div>
     </div>
 
     <script>
-       const quizData = [
-    { q: "A 45-year-old male undergoes surgery for a tumor within his parotid gland... he notices sweating on the skin of his cheek whenever he eats. Which nerve's regenerating parasympathetic fibers are responsible?", 
-      options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, 
-      hint: "Focus on the nerve that directly carries the postganglionic secretomotor fibers.",
-      rat: "This nerve carries postganglionic parasympathetic fibers to the parotid gland." },
-    { q: "A diagnosis of acute parotitis is made... To enter the oral vestibule, this duct must pierce which muscle?", 
-      options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, 
-      hint: "Consider the muscle that constitutes the main substance of the cheek wall.",
-      rat: "After crossing the masseter, the parotid duct pierces the buccinator." },
-    { q: "During a surgical procedure... Which of the following structures is located most medially within the parotid bed?", 
-      options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, 
-      hint: "Recall the arrangement from lateral to deep.",
-      rat: "This artery ascends into the gland and is the most medial." },
-    { q: "A surgeon is performing an excision of the submandibular gland... Which nerve loops inferiorly around this duct?", 
-      options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, 
-      hint: "Think of the nerve that provides general sensation to the anterior two-thirds of the tongue.",
-      rat: "The lingual nerve loops underneath the submandibular duct." }
-];
+        const quizData = [
+            { q: "A 45-year-old male undergoes surgery for a tumor within his parotid gland. Post-operatively, he notices sweating on the skin of his cheek whenever he eats (Frey's syndrome). Which nerve's regenerating parasympathetic fibers are responsible?", 
+              options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, 
+              hint: "Focus on the nerve that directly carries secretomotor fibers to the parotid gland.",
+              rat: "The auriculotemporal nerve carries postganglionic parasympathetic fibers that can misroute to sweat glands after injury." },
+            { q: "A diagnosis of acute parotitis is made. The physician explains that the infection has caused swelling within the gland's capsule. To enter the oral vestibule, the parotid duct must pierce which muscle?", 
+              options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, 
+              hint: "Consider the muscle that constitutes the main substance of the cheek wall.",
+              rat: "The parotid (Stensen's) duct pierces the buccinator muscle at the level of the second upper molar." },
+            { q: "During a surgical procedure involving the parotid gland, a surgeon identifies several structures within its substance. Which of the following is located most medially within the parotid bed?", 
+              options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, 
+              hint: "Recall the arrangement of structures from superficial (lateral) to deep (medial).",
+              rat: "From superficial to deep: Facial Nerve, Retromandibular Vein, and External Carotid Artery (most medial)." },
+            { q: "A surgeon is performing an excision of the submandibular gland. During the dissection, the submandibular duct is identified. Which nerve loops inferiorly around this duct?", 
+              options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, 
+              hint: "Think of the nerve providing general sensation to the anterior two-thirds of the tongue.",
+              rat: "The lingual nerve has a characteristic relationship where it 'triple-loops' under the submandibular duct." }
+        ];
 
-        function render() {
-            const q = quizData[currentIndex];
-            let html = `<div class="question-text">${q.question}</div>`;
-            q.answerOptions.forEach((opt, idx) => {
-                const isSel = state[currentIndex].selected === idx;
-                const cls = isSel ? (opt.isCorrect ? 'selected correct' : 'selected incorrect') : '';
-                html += `<li class="option-item ${cls}" onclick="select(${idx})">${String.fromCharCode(65+idx)}. ${opt.text}${isSel?`<div class="rationale">${opt.rationale||'Keep going!'}</div>`:''}</li>`;
-            });
-            document.getElementById('quiz-content').innerHTML = html;
-            document.getElementById('hint-text').innerText = q.hint;
-            document.getElementById('home-btn').style.display = currentIndex === quizData.length-1 ? 'block' : 'none';
+        let cur = 0, state = quizData.map(() => null);
+
+        function startQuiz() {
+            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
+                document.getElementById('login-gate').style.display = 'none';
+                document.getElementById('quiz-ui').style.display = 'block';
+                render();
+            } else { alert("Please use your official @isra.edu.pk email."); }
         }
 
-        function select(idx) { state[currentIndex].selected = idx; render(); }
-        function toggleHint() { document.getElementById('hint-box').style.display = document.getElementById('hint-box').style.display==='block'?'none':'block'; }
-        function next() { if(currentIndex < quizData.length-1) { currentIndex++; render(); } }
-        function prev() { if(currentIndex > 0) { currentIndex--; render(); } }
+        function render() {
+            const data = quizData[cur];
+            let html = `<div class="question-text">${data.q}</div>`;
+            data.options.forEach((o, i) => {
+                const isSel = state[cur] === i;
+                const cls = isSel ? (i === data.correct ? 'correct' : 'incorrect') : '';
+                html += `<div class="option-item ${cls}" onclick="select(${i})">${String.fromCharCode(65+i)}. ${o}${isSel?`<div class="rationale" style="display:block">${data.rat}</div>`:''}</div>`;
+            });
+            document.getElementById('quiz-content').innerHTML = html;
+            document.getElementById('hint-text').innerText = data.hint;
+            document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
+            document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
+            document.getElementById('prev-btn').disabled = (cur === 0);
+        }
+
+        function select(i) { if(state[cur] === null) { state[cur] = i; render(); } }
+        function toggleHint() { const h = document.getElementById('hint-box'); h.style.display = h.style.display==='block'?'none':'block'; }
+        function next() { if(cur < quizData.length-1) { cur++; render(); } }
+        function prev() { if(cur > 0) { cur--; render(); } }
+        function showFinalFeedback() { document.getElementById('quiz-ui').style.display='none'; document.getElementById('feedback-area').style.display='block'; }
     </script>
 </body>
 </html>
