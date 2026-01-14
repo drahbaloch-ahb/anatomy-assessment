@@ -3,88 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tongue Clinical Quiz - Prof. Baloch</title>
+    <title>Tongue Clinical Assessment</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-        :root { --bg: #f6f1e7; --bg-deep: #efe4d6; --ink: #171717; --muted: #5b5b5b; --accent: #d3542c; --teal: #1f6f78; --card: #fff7ef; --stroke: #e3d6c5; --shadow: 0 18px 40px rgba(23, 23, 23, 0.12); --radius-2xl: 22px; --font-display: 'Space Grotesk', sans-serif; --font-body: 'IBM Plex Sans', sans-serif; --error: #b54832; }
-        body { font-family: var(--font-body); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%); color: var(--ink); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .quiz-container { width: 100%; max-width: 800px; padding: 32px; background: var(--card); border-radius: var(--radius-2xl); border: 1px solid var(--stroke); box-shadow: var(--shadow); }
-        .question-text { font-family: var(--font-display); font-size: 1.5em; font-weight: 600; margin-bottom: 32px; line-height: 1.4; }
-        .options-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-        .option-item { background-color: #fff; border: 1px solid var(--stroke); padding: 12px 16px; border-radius: 14px; cursor: pointer; transition: 0.2s; }
-        .option-item.selected.correct { background-color: rgba(31, 111, 120, 0.12); border-color: var(--teal); }
-        .option-item.selected.incorrect { background-color: rgba(181, 72, 50, 0.12); border-color: var(--error); }
-        .rationale { font-size: 0.9em; color: var(--muted); margin-top: 8px; display: none; }
-        .selected .rationale { display: block; }
-        .hint-content { margin-top: 24px; padding: 16px; background: #fff; border: 1px solid var(--stroke); border-radius: 14px; display: none; }
-        .hint-content.active { display: block; }
-        .btn { border-radius: 12px; padding: 10px 24px; font-weight: 500; cursor: pointer; border: none; background: var(--teal); color: #fff; }
-        .navigation { margin-top: 32px; display: flex; justify-content: space-between; align-items: center; }
-        #login-gate { text-align: center; }
-        input { padding: 12px; width: 80%; margin: 10px 0; border-radius: 8px; border: 1px solid var(--stroke); }
+        :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; --font-display: 'Space Grotesk', sans-serif; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .quiz-container { width: 90%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 20px; border: 1px solid var(--stroke); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .question-text { font-family: var(--font-display); font-size: 1.4em; font-weight: 600; margin-bottom: 20px; }
+        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 12px; border-radius: 10px; cursor: pointer; margin-bottom: 10px; list-style: none; transition: 0.2s; }
+        .option-item.correct { background: rgba(31, 111, 120, 0.1); border-color: var(--teal); }
+        .option-item.incorrect { background: rgba(181, 72, 50, 0.1); border-color: #b54832; }
+        .rationale { font-size: 0.9em; margin-top: 8px; color: #5b5b5b; display: none; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; }
+        input { padding: 12px; width: 80%; margin-bottom: 10px; border: 1px solid var(--stroke); border-radius: 8px; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="login-gate">
+        <div id="login-gate" style="text-align:center;">
             <h2 style="color:var(--teal)">Isra University Portal</h2>
-            <p>Enter Student Details to Begin:</p>
             <input type="text" id="name" placeholder="Full Name"><br>
-            <input type="text" id="roll" placeholder="Roll Number (e.g. 123)"><br>
             <input type="email" id="email" placeholder="student@isra.edu.pk"><br>
-            <button class="btn" onclick="startQuiz()">Enter Assessment</button>
+            <button class="btn" onclick="startQuiz()">Start Tongue Assessment</button>
         </div>
 
         <div id="quiz-ui" style="display:none;">
             <div id="quiz-content"></div>
-            <div id="hint-box" class="hint-content">💡 <span id="hint-text"></span></div>
-            <div class="navigation">
+            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
+            <div style="margin-top:25px; display:flex; justify-content:space-between;">
                 <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="toggleHint()">Hint</button>
                 <div style="display:flex; gap:10px;">
-                    <button id="prev-btn" class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="prev()">Prev</button>
-                    <button id="next-btn" class="btn" onclick="next()">Next</button>
-                    <button id="home-btn" class="btn" style="background:var(--accent); display:none;" onclick="window.location.href='index.html'">Finish & Return</button>
+                    <button class="btn" id="prev-btn" onclick="prev()">Previous</button>
+                    <button class="btn" id="next-btn" onclick="next()">Next</button>
+                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="finish()">Finish & Feedback</button>
                 </div>
+            </div>
+            <div id="feedback-area" style="display:none; text-align:center; margin-top:20px;">
+                <h2 style="color:var(--teal)">Congratulations, Prof. Baloch's Student!</h2>
+                <p>Thank you for completing the Clinical Anatomy module.</p>
+                <button class="btn" onclick="window.location.href='index.html'">Return to Main Portal</button>
             </div>
         </div>
     </div>
 
     <script>
-        // [PROFESSOR: I extracted these EXACTLY from your Tongue file]
         const quizData = [
-            {"hint":"Consider the motor nerve responsible for the action of the genioglossus muscle.","question":"A 55-year-old male is brought to the emergency room following a mandible fracture... The tongue is observed to deviate towards the left side. What specific structure is most likely injured?","answerOptions":[{"isCorrect":true,"rationale":"Injury to this nerve causes paralysis of the ipsilateral genioglossus...","text":"Left hypoglossal nerve"},{"text":"Right hypoglossal nerve"},{"text":"Lingual nerve"},{"text":"Glossopharyngeal nerve"},{"text":"Chorda tympani"}]},
-            {"hint":"Think about the largest of the extrinsic tongue muscles.","question":"An anesthesiologist is monitoring a patient... the tongue falls posteriorly, causing an airway obstruction. Which muscle's relaxation is the primary cause?","answerOptions":[{"text":"Styloglossus"},{"text":"Hyoglossus"},{"text":"Palatoglossus"},{"isCorrect":true,"rationale":"This fan-shaped muscle makes up the bulk of the tongue and its primary role is to protrude the tongue.","text":"Genioglossus"},{"text":"Mylohyoid"}]},
-            {"hint":"Look for a superficial vessel located on the inferior surface of the tongue.","question":"A patient with heart disease... places the tablet under the tongue for quick absorption. Which vascular structure is primarily responsible?","answerOptions":[{"text":"Lingual artery"},{"isCorrect":true,"rationale":"These large veins are located close to the surface under the thin mucosa.","text":"Deep lingual vein"},{"text":"Submandibular ganglion"},{"text":"Submental artery"},{"text":"Jugular vein"}]}
+            { q: "A 55-year-old male is brought to the emergency room following a mandible fracture sustained in a car accident. During a neurological exam, the physician asks the patient to protrude his tongue. The tongue is observed to deviate towards the left side. What specific structure is most likely injured?", 
+              options: ["Left hypoglossal nerve", "Right hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Chorda tympani"], correct: 0, 
+              hint: "Consider the motor nerve responsible for the action of the genioglossus muscle.",
+              rat: "Injury to this nerve causes paralysis of the ipsilateral genioglossus muscle, leading to deviation towards the paralyzed side." },
+            { q: "An anesthesiologist is monitoring a patient under general anesthesia. The patient's muscle tone is completely relaxed, and the tongue falls posteriorly, causing an airway obstruction. Which muscle's relaxation is the primary cause of this event?", 
+              options: ["Styloglossus", "Hyoglossus", "Palatoglossus", "Genioglossus", "Mylohyoid"], correct: 3, 
+              hint: "Think about the largest of the extrinsic tongue muscles.",
+              rat: "This fan-shaped muscle makes up the bulk of the tongue and its primary role is to protrude the tongue, thereby preventing it from blocking the airway." },
+            { q: "A patient with a history of heart disease is prescribed sublingual nitroglycerin for rapid relief of chest pain. Which vascular structure is primarily responsible for this rapid uptake?", 
+              options: ["Lingual artery", "Deep lingual vein", "Submandibular ganglion", "Submental artery", "Jugular vein"], correct: 1, 
+              hint: "Look for a superficial vessel located on the inferior surface of the tongue.",
+              rat: "These large veins are located close to the surface under the thin mucosa of the tongue's inferior aspect." },
+            { q: "During an oral cancer screening, a dentist inspects the dorsal surface of the tongue. A V-shaped groove is noted... what is this landmark called?", 
+              options: ["Median furrow", "Frenulum", "Sulcus terminalis", "Foramen cecum", "Palatoglossal arch"], correct: 2, 
+              hint: "This structure's name suggests it is a terminal groove.",
+              rat: "This V-shaped groove correctly identifies the division between the anterior two-thirds and posterior one-third of the tongue." }
         ];
 
-        let currentIndex = 0;
-        let state = quizData.map(() => ({ selected: null }));
-
-        function startQuiz() {
-            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
-                document.getElementById('login-gate').style.display = 'none';
-                document.getElementById('quiz-ui').style.display = 'block';
-                render();
-            } else { alert("Use Isra Email"); }
-        }
-
+        let cur = 0, state = quizData.map(() => null);
+        function startQuiz() { if(document.getElementById('email').value.includes('@isra.edu.pk')) { document.getElementById('login-gate').style.display='none'; document.getElementById('quiz-ui').style.display='block'; render(); } else alert("Use Isra Email"); }
         function render() {
-            const q = quizData[currentIndex];
-            let html = `<div class="question-text">${q.question}</div><ul class="options-list">`;
-            q.answerOptions.forEach((opt, idx) => {
-                const isSel = state[currentIndex].selected === idx;
-                const cls = isSel ? (opt.isCorrect ? 'selected correct' : 'selected incorrect') : '';
-                html += `<li class="option-item ${cls}" onclick="select(${idx})">${String.fromCharCode(65+idx)}. ${opt.text}${isSel?`<div class="rationale">${opt.rationale||'Keep going!'}</div>`:''}</li>`;
+            const data = quizData[cur];
+            let html = `<div class="question-text">${data.q}</div>`;
+            data.options.forEach((o, i) => {
+                const isSel = state[cur] === i;
+                const cls = isSel ? (i === data.correct ? 'correct' : 'incorrect') : '';
+                html += `<div class="option-item ${cls}" onclick="select(${i})">${String.fromCharCode(65+i)}. ${o}${isSel?`<div class="rationale" style="display:block">${data.rat}</div>`:''}</div>`;
             });
-            document.getElementById('quiz-content').innerHTML = html + `</ul>`;
-            document.getElementById('hint-text').innerText = q.hint;
-            document.getElementById('home-btn').style.display = currentIndex === quizData.length - 1 ? 'block' : 'none';
+            document.getElementById('quiz-content').innerHTML = html;
+            document.getElementById('hint-text').innerText = data.hint;
+            document.getElementById('finish-btn').style.display = cur === quizData.length-1 ? 'inline-block' : 'none';
+            document.getElementById('next-btn').style.display = cur === quizData.length-1 ? 'none' : 'inline-block';
         }
-
-        function select(idx) { state[currentIndex].selected = idx; render(); }
-        function toggleHint() { document.getElementById('hint-box').style.display = document.getElementById('hint-box').style.display==='block'?'none':'block'; }
-        function next() { if(currentIndex < quizData.length-1) { currentIndex++; render(); } }
-        function prev() { if(currentIndex > 0) { currentIndex--; render(); } }
+        function select(i) { if(state[cur] === null) { state[cur] = i; render(); } }
+        function toggleHint() { const h = document.getElementById('hint-box'); h.style.display = h.style.display==='block'?'none':'block'; }
+        function next() { if(cur < quizData.length-1) { cur++; render(); } }
+        function prev() { if(cur > 0) { cur--; render(); } }
+        function finish() { document.getElementById('quiz-content').style.display='none'; document.querySelector('.navigation').style.display='none'; document.getElementById('feedback-area').style.display='block'; }
     </script>
 </body>
 </html>
