@@ -113,7 +113,7 @@
             
             try {
                 // REPLACE WITH YOUR ACTUAL GOOGLE SCRIPT URL
-                await fetch('YOUR_APPS_SCRIPT_URL', { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                await fetch('https://script.google.com/macros/s/AKfycbxHxM-Z1VM9kMoP9DPItDRH37CkD-LptANOntreNmcK4lL81jpbYdnoNJCWrYqqmDBNUg/exec', { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
                 alert("Thank you! Recorded successfully.");
                 window.location.href = 'index.html';
             } catch(e) { alert("Error saving data."); btn.disabled = false; }
