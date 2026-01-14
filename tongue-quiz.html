@@ -3,99 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tongue Clinical Assessment - Prof. Baloch</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>Tongue Clinical Quiz - Prof. Baloch</title>
     <style>
-        :root { --teal: #1f6f78; --accent: #d3542c; --bg: #f6f1e7; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
-        .quiz-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
-        .question { margin-bottom: 20px; display: none; }
-        .question.active { display: block; }
-        .hint { color: var(--accent); font-style: italic; margin-top: 10px; display: none; font-size: 0.9em; }
-        .btn { background: var(--teal); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-        .feedback { font-weight: bold; margin-top: 15px; }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+        :root { --bg: #f6f1e7; --bg-deep: #efe4d6; --ink: #171717; --muted: #5b5b5b; --accent: #d3542c; --teal: #1f6f78; --card: #fff7ef; --stroke: #e3d6c5; --shadow: 0 18px 40px rgba(23, 23, 23, 0.12); --radius-2xl: 22px; --font-display: 'Space Grotesk', sans-serif; --font-body: 'IBM Plex Sans', sans-serif; --error: #b54832; }
+        body { font-family: var(--font-body); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%); color: var(--ink); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .quiz-container { width: 100%; max-width: 800px; padding: 32px; background: var(--card); border-radius: var(--radius-2xl); border: 1px solid var(--stroke); box-shadow: var(--shadow); }
+        .question-text { font-family: var(--font-display); font-size: 1.5em; font-weight: 600; margin-bottom: 32px; line-height: 1.4; }
+        .options-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+        .option-item { background-color: #fff; border: 1px solid var(--stroke); padding: 12px 16px; border-radius: 14px; cursor: pointer; transition: 0.2s; }
+        .option-item.selected.correct { background-color: rgba(31, 111, 120, 0.12); border-color: var(--teal); }
+        .option-item.selected.incorrect { background-color: rgba(181, 72, 50, 0.12); border-color: var(--error); }
+        .rationale { font-size: 0.9em; color: var(--muted); margin-top: 8px; display: none; }
+        .selected .rationale { display: block; }
+        .hint-content { margin-top: 24px; padding: 16px; background: #fff; border: 1px solid var(--stroke); border-radius: 14px; display: none; }
+        .hint-content.active { display: block; }
+        .btn { border-radius: 12px; padding: 10px 24px; font-weight: 500; cursor: pointer; border: none; background: var(--teal); color: #fff; }
+        .navigation { margin-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+        #login-gate { text-align: center; }
+        input { padding: 12px; width: 80%; margin: 10px 0; border-radius: 8px; border: 1px solid var(--stroke); }
     </style>
 </head>
 <body>
-    <div class="quiz-container" id="quiz-box">
-        <div id="setup-section">
-            <h2 style="color: var(--teal);">👅 Tongue Clinical Assessment</h2>
-            <p>Enter your Isra University Email to begin:</p>
-            <input type="email" id="student-email" placeholder="e.g. 2024-mbbs-001@isra.edu.pk" style="width: 90%; padding: 10px; margin-bottom: 10px;">
-            <button class="btn" onclick="startQuiz()">Start Assessment</button>
+    <div class="quiz-container">
+        <div id="login-gate">
+            <h2 style="color:var(--teal)">Isra University Portal</h2>
+            <p>Enter Student Details to Begin:</p>
+            <input type="text" id="name" placeholder="Full Name"><br>
+            <input type="text" id="roll" placeholder="Roll Number (e.g. 123)"><br>
+            <input type="email" id="email" placeholder="student@isra.edu.pk"><br>
+            <button class="btn" onclick="startQuiz()">Enter Assessment</button>
         </div>
 
-        <div id="question-container" style="display:none;">
-            <div class="question active" id="q1">
-                <p><strong>Scenario 1:</strong> A patient presents with a deep laceration to the floor of the mouth. On examination, the tongue deviates to the right side upon protrusion. Which nerve is likely injured?</p>
-                <input type="radio" name="q1" value="A"> A. Lingual Nerve<br>
-                <input type="radio" name="q1" value="B"> B. Right Hypoglossal Nerve<br>
-                <input type="radio" name="q1" value="C"> C. Left Hypoglossal Nerve<br>
-                <button class="btn" onclick="showHint('h1')">Need a Hint?</button>
-                <div id="h1" class="hint">Hint: The tongue "points to the side of the lesion".</div>
-                <br><button class="btn" onclick="nextQuestion(1, 'B')">Submit Answer</button>
-            </div>
-
-            <div class="question" id="q2">
-                <p><strong>Scenario 2:</strong> During general anesthesia, a patient's tongue falls backward, obstructing the airway. Which "safety muscle" has lost its tone?</p>
-                <input type="radio" name="q2" value="A"> A. Hyoglossus<br>
-                <input type="radio" name="q2" value="B"> B. Genioglossus<br>
-                <input type="radio" name="q2" value="C"> C. Styloglossus<br>
-                <button class="btn" onclick="showHint('h2')">Need a Hint?</button>
-                <div id="h2" class="hint">Hint: This muscle is the "life-saving" muscle of the tongue.</div>
-                <br><button class="btn" onclick="nextQuestion(2, 'B')">Submit Answer</button>
-            </div>
-            
-            <div id="final-results" style="display:none; text-align:center;">
-                <h2 style="color: var(--teal);">Excellent Work!</h2>
-                <p id="score-display"></p>
-                <p><strong>Clinical Pearl:</strong> Always remember the dual embryological origin of the tongue at the <strong>Sulcus Terminalis</strong>.</p>
-                <button class="btn" onclick="window.location.href='index.html'">Back to Portal</button>
+        <div id="quiz-ui" style="display:none;">
+            <div id="quiz-content"></div>
+            <div id="hint-box" class="hint-content">💡 <span id="hint-text"></span></div>
+            <div class="navigation">
+                <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="toggleHint()">Hint</button>
+                <div style="display:flex; gap:10px;">
+                    <button id="prev-btn" class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="prev()">Prev</button>
+                    <button id="next-btn" class="btn" onclick="next()">Next</button>
+                    <button id="home-btn" class="btn" style="background:var(--accent); display:none;" onclick="window.location.href='index.html'">Finish & Return</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let email = "";
-        let score = 0;
+        // [PROFESSOR: I extracted these EXACTLY from your Tongue file]
+        const quizData = [
+            {"hint":"Consider the motor nerve responsible for the action of the genioglossus muscle.","question":"A 55-year-old male is brought to the emergency room following a mandible fracture... The tongue is observed to deviate towards the left side. What specific structure is most likely injured?","answerOptions":[{"isCorrect":true,"rationale":"Injury to this nerve causes paralysis of the ipsilateral genioglossus...","text":"Left hypoglossal nerve"},{"text":"Right hypoglossal nerve"},{"text":"Lingual nerve"},{"text":"Glossopharyngeal nerve"},{"text":"Chorda tympani"}]},
+            {"hint":"Think about the largest of the extrinsic tongue muscles.","question":"An anesthesiologist is monitoring a patient... the tongue falls posteriorly, causing an airway obstruction. Which muscle's relaxation is the primary cause?","answerOptions":[{"text":"Styloglossus"},{"text":"Hyoglossus"},{"text":"Palatoglossus"},{"isCorrect":true,"rationale":"This fan-shaped muscle makes up the bulk of the tongue and its primary role is to protrude the tongue.","text":"Genioglossus"},{"text":"Mylohyoid"}]},
+            {"hint":"Look for a superficial vessel located on the inferior surface of the tongue.","question":"A patient with heart disease... places the tablet under the tongue for quick absorption. Which vascular structure is primarily responsible?","answerOptions":[{"text":"Lingual artery"},{"isCorrect":true,"rationale":"These large veins are located close to the surface under the thin mucosa.","text":"Deep lingual vein"},{"text":"Submandibular ganglion"},{"text":"Submental artery"},{"text":"Jugular vein"}]}
+        ];
+
+        let currentIndex = 0;
+        let state = quizData.map(() => ({ selected: null }));
 
         function startQuiz() {
-            email = document.getElementById('student-email').value;
-            if(email.includes('@isra.edu.pk')) {
-                document.getElementById('setup-section').style.display = 'none';
-                document.getElementById('question-container').style.display = 'block';
-            } else {
-                alert("Please use your Isra University email.");
-            }
+            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
+                document.getElementById('login-gate').style.display = 'none';
+                document.getElementById('quiz-ui').style.display = 'block';
+                render();
+            } else { alert("Use Isra Email"); }
         }
 
-        function showHint(id) { document.getElementById(id).style.display = 'block'; }
-
-        function nextQuestion(qNum, correct) {
-            let selected = document.querySelector(`input[name="q${qNum}"]:checked`);
-            if(!selected) return alert("Select an answer");
-            if(selected.value === correct) score++;
-            
-            document.getElementById(`q${qNum}`).style.display = 'none';
-            let next = document.getElementById(`q${qNum+1}`);
-            if(next) {
-                next.classList.add('active');
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            document.getElementById('final-results').style.display = 'block';
-            document.getElementById('score-display').innerText = `You scored ${score} out of 2.`;
-            confetti();
-            // This is where we link your Tongue Google Sheet
-            fetch('YOUR_TONGUE_SHEET_URL', {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({email: email, score: score, topic: 'Tongue'})
+        function render() {
+            const q = quizData[currentIndex];
+            let html = `<div class="question-text">${q.question}</div><ul class="options-list">`;
+            q.answerOptions.forEach((opt, idx) => {
+                const isSel = state[currentIndex].selected === idx;
+                const cls = isSel ? (opt.isCorrect ? 'selected correct' : 'selected incorrect') : '';
+                html += `<li class="option-item ${cls}" onclick="select(${idx})">${String.fromCharCode(65+idx)}. ${opt.text}${isSel?`<div class="rationale">${opt.rationale||'Keep going!'}</div>`:''}</li>`;
             });
+            document.getElementById('quiz-content').innerHTML = html + `</ul>`;
+            document.getElementById('hint-text').innerText = q.hint;
+            document.getElementById('home-btn').style.display = currentIndex === quizData.length - 1 ? 'block' : 'none';
         }
+
+        function select(idx) { state[currentIndex].selected = idx; render(); }
+        function toggleHint() { document.getElementById('hint-box').style.display = document.getElementById('hint-box').style.display==='block'?'none':'block'; }
+        function next() { if(currentIndex < quizData.length-1) { currentIndex++; render(); } }
+        function prev() { if(currentIndex > 0) { currentIndex--; render(); } }
     </script>
 </body>
 </html>
