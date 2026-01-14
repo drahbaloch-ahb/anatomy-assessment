@@ -61,7 +61,7 @@
               hint: "Consider the muscle that constitutes the main substance of the cheek wall." },
             { q: "During a surgical procedure to remove a tumor located in the deepest part of the parotid gland, the surgeon must carefully navigate the structures that pass through the gland substance. \nWhich of the following structures is located most medially within the parotid bed?", 
               options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, 
-              rat: "The External Carotid Artery is the deepest (most medial) of the three major structures.", 
+              rat: "The External Carotid Artery is the deepest (most medial) of the three major structures, lying deep to both the facial nerve and retromandibular vein.", 
               hint: "Recall the arrangement of the key neurovascular structures from superficial (lateral) to deep (medial)." },
             { q: "A surgeon is performing an excision of the submandibular gland. During the dissection, the submandibular duct is identified. Which nerve loops inferiorly around this duct?", 
               options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, 
@@ -114,12 +114,13 @@
                 score: state.filter((s,i)=>s===quizData[i].correct).length 
             };
             try {
-                await fetch('https://script.google.com/macros/s/AKfycbxHxM-Z1VM9kMoP9DPItDRH37CkD-LptANOntreNmcK4lL81jpbYdnoNJCWrYqqmDBNUg/exec', { 
+                // Using your NEW App Script URL here
+                await fetch('https://script.google.com/macros/s/AKfycbMfsPnpeja2_hvsRxI32onFws6gJS6fE7ccNLrrA3ySaSrMtYuKNBgO2UVCWAeVSjQDQ/exec', { 
                     method: 'POST', 
                     mode: 'no-cors', 
                     body: JSON.stringify(payload) 
                 });
-                alert("Assessment successfully recorded!");
+                alert("Assessment successfully recorded in Prof. Baloch's sheet!");
                 window.location.href = 'index.html';
             } catch(e) { alert("Submission failed. Check connection."); btn.disabled = false; }
         }
