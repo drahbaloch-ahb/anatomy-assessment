@@ -55,6 +55,7 @@
                 </ul>
             </div>
             
+            
             <button class="btn" onclick="window.location.href='index.html'">Return to Main Portal</button>
         </div>
     </div>
@@ -79,14 +80,18 @@
               rat: "The lingual nerve has a characteristic relationship where it 'triple-loops' under the submandibular duct." }
         ];
 
-        let cur = 0, state = quizData.map(() => null);
+        let cur = 0; 
+        let state = quizData.map(() => null);
 
         function startQuiz() {
-            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
+            const emailInput = document.getElementById('email').value;
+            if(emailInput.includes('@isra.edu.pk')) {
                 document.getElementById('login-gate').style.display = 'none';
                 document.getElementById('quiz-ui').style.display = 'block';
                 render();
-            } else { alert("Please use your official @isra.edu.pk email."); }
+            } else {
+                alert("Please use your official @isra.edu.pk email to enter the assessment.");
+            }
         }
 
         function render() {
@@ -99,8 +104,10 @@
             });
             document.getElementById('quiz-content').innerHTML = html;
             document.getElementById('hint-text').innerText = data.hint;
-            document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
-            document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
+            
+            // Logic for buttons
+            document.getElementById('finish-btn').style.display = (cur === quizData.length - 1 && state[cur] !== null) ? 'inline-block' : 'none';
+            document.getElementById('next-btn').style.display = (cur === quizData.length - 1) ? 'none' : 'inline-block';
             document.getElementById('prev-btn').disabled = (cur === 0);
         }
 
