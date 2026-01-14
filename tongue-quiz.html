@@ -2,127 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tongue Clinical - Prof. Baloch</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
         :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; }
         body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 22px; border: 1px solid var(--stroke); box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
-        .question-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.3em; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
-        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 16px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: 0.2s; border-left: 5px solid transparent; }
-        .option-item.correct { background: rgba(31, 111, 120, 0.05); border-left: 5px solid var(--teal); border-color: var(--teal); }
-        .option-item.incorrect { background: rgba(181, 72, 50, 0.05); border-left: 5px solid #b54832; border-color: #b54832; }
-        .rationale { font-size: 0.95em; margin-top: 10px; color: #444; display: none; padding-top: 10px; border-top: 1px dotted #ccc; }
-        .btn { padding: 12px 24px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; }
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; }
+        .stats { font-family: 'Space Grotesk', sans-serif; font-weight: bold; margin-bottom: 10px; color: var(--teal); }
+        .question-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.25em; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
+        .option-item.correct { border: 2px solid #2e7d32; background: #f1f8e9; }
+        .option-item.incorrect { border: 2px solid #c62828; background: #ffebee; }
+        .rationale { font-size: 0.9em; margin-top: 8px; display: none; color: #444; padding-top: 8px; border-top: 1px solid #ddd; }
+        .btn { padding: 12px 24px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; margin-top: 10px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="login-gate" style="text-align:center;">
-            <h2 style="color:var(--teal)">Isra University Portal</h2>
-            <p>Clinical Anatomy: The Tongue</p>
-            <input type="text" id="std_name" placeholder="Full Name">
-            <input type="email" id="std_email" placeholder="student@isra.edu.pk">
-            <button class="btn" onclick="start()">Start Assessment</button>
+        <div id="login-gate">
+            <h2 style="color:var(--teal)">Tongue Clinical Assessment</h2>
+            <input type="text" id="std_name" placeholder="Student Name">
+            <input type="text" id="std_roll" placeholder="Roll No">
+            <input type="email" id="std_email" placeholder="email@isra.edu.pk">
+            <button class="btn" onclick="start()">Begin Assessment</button>
         </div>
 
         <div id="quiz-ui" style="display:none;">
+            <div class="stats">
+                <span id="progress-text">1 / 4</span><br>
+                <span style="color:#2e7d32">✓<span id="correct-count">0</span></span> 
+                <span style="color:#c62828">✕<span id="wrong-count">0</span></span>
+            </div>
             <div id="quiz-content"></div>
-            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
-            <div style="margin-top:25px; display:flex; justify-content:space-between;">
-                <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="document.getElementById('hint-box').style.display='block'">Hint</button>
+            <div style="margin-top:20px; display:flex; justify-content:space-between;">
+                <button class="btn" style="background:#888" onclick="document.getElementById('hint-box').style.display='block'">Hint</button>
                 <div style="display:flex; gap:10px;">
                     <button class="btn" onclick="prev()">Previous</button>
                     <button class="btn" id="next-btn" onclick="next()">Next</button>
-                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFeedback()">Finish & Submit</button>
+                    <button class="btn" id="finish-btn" style="display:none; background:var(--accent)" onclick="showFeedback()">Finish</button>
                 </div>
             </div>
+            <div id="hint-box" style="display:none; margin-top:10px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
         </div>
 
         <div id="feedback-ui" style="display:none; text-align:center;">
-            <h2 style="color:var(--teal)">Clinical Assessment Complete</h2>
-            <p>Please provide your comments for Prof. Dr. Abdul Hafeez Baloch:</p>
-            <textarea id="feedback_msg" placeholder="Type your feedback here..."></textarea>
-            <button class="btn" id="sub-btn" onclick="submitData()">Submit to Sheet</button>
+            <h3>Feedback for Prof. Baloch</h3>
+            <textarea id="feedback_msg" style="width:100%; height:100px; border-radius:8px; padding:10px;" placeholder="Type feedback here..."></textarea><br><br>
+            <button class="btn" onclick="submitData()">Submit & Exit</button>
         </div>
     </div>
 
     <script>
         const quizData = [
-            { q: "A patient is asked to protrude their tongue during a physical examination. The tongue deviates significantly to the right side. This clinical finding indicates a lesion of which nerve?", 
-              options: ["Left Hypoglossal nerve", "Right Hypoglossal nerve", "Left Glossopharyngeal nerve", "Right Glossopharyngeal nerve", "Right Lingual nerve"], correct: 1, 
-              rat: "The genioglossus muscle on the healthy side pushes the tongue toward the paralyzed side. Deviation is toward the side of the lesion.", 
-              hint: "The tongue 'points' to the side that is damaged." },
-            { q: "Which extrinsic muscle of the tongue is known as the 'safety muscle' because its contraction pulls the tongue forward, preventing it from falling backward and obstructing the oropharynx?", 
-              options: ["Hyoglossus", "Styloglossus", "Genioglossus", "Palatoglossus", "Verticalis"], correct: 2, 
-              rat: "Genioglossus is the main protruder. If paralyzed (e.g., in anesthesia), the tongue can fall back and block the airway.", 
-              hint: "Identify the fan-shaped muscle that forms the bulk of the tongue." },
-            { q: "A 55-year-old patient is diagnosed with a cancerous lesion on the lateral margin of the tongue. To which group of lymph nodes would the primary lymphatic drainage most likely occur first?", 
-              options: ["Submental nodes", "Submandibular nodes", "Superior deep cervical nodes", "Inferior deep cervical nodes", "Parotid nodes"], correct: 1, 
-              rat: "The lateral margins drain primarily to the submandibular nodes. (Tip drains to submental; posterior third drains to deep cervical).", 
-              hint: "Consider the nodes located directly under the body of the mandible." },
-            { q: "A patient undergoes an extraction of an impacted mandibular third molar. Post-operatively, they report a loss of general sensation and taste from the anterior two-thirds of the tongue on the ipsilateral side. Which nerve was most likely injured?", 
-              options: ["Hypoglossal nerve", "Lingual nerve", "Chorda tympani", "Glossopharyngeal nerve", "Nerve to mylohyoid"], correct: 1, 
-              rat: "The lingual nerve lies on the medial side of the third molar socket and carries both general and taste sensation.", 
-              hint: "Recall the nerve that loops under the submandibular duct in the floor of the mouth." }
+            { q: "A 55-year-old male is brought to the emergency room following a mandible fracture sustained in a car accident. During a neurological exam, the physician asks the patient to protrude his tongue. The tongue is observed to deviate towards the left side. What specific structure is most likely injured?", 
+              options: ["Left hypoglossal nerve", "Right hypoglossal nerve", "Left glossopharyngeal nerve", "Right glossopharyngeal nerve", "Left lingual nerve"], correct: 0, 
+              rat: "In LMN lesions of the hypoglossal nerve, the tongue deviates to the paralyzed side due to unopposed action of the healthy side.", 
+              hint: "The tongue points to the side of the lesion." },
+            { q: "Which extrinsic muscle of the tongue is termed the 'safety muscle' because its contraction prevents the tongue from falling backward and obstructing the airway?", 
+              options: ["Hyoglossus", "Styloglossus", "Genioglossus", "Palatoglossus", "Chondroglossus"], correct: 2, 
+              rat: "Bilateral action of Genioglossus protrudes the tongue forward.", 
+              hint: "Main muscle of protrusion." },
+            { q: "A patient presents with a malignant tumor on the lateral margin of the tongue. Primary lymphatic drainage from this area would most likely go to which lymph nodes first?", 
+              options: ["Submental", "Submandibular", "Superior deep cervical", "Inferior deep cervical", "Parotid"], correct: 1, 
+              rat: "Lateral margins drain to submandibular nodes. The tip drains to submental nodes.", 
+              hint: "Nodes under the body of the mandible." },
+            { q: "A 25-year-old undergoes extraction of an impacted mandibular third molar. Afterwards, they report loss of general sensation and taste from the anterior 2/3 of the tongue. Which nerve was likely injured?", 
+              options: ["Hypoglossal nerve", "Lingual nerve", "Chorda tympani", "Glossopharyngeal nerve", "Mandibular nerve"], correct: 1, 
+              rat: "The lingual nerve carries sensation and taste (via chorda tympani) and is near the 3rd molar.", 
+              hint: "Loops under the submandibular duct." }
         ];
 
-        let cur = 0, state = quizData.map(() => null), student = {};
+        let cur = 0, state = quizData.map(() => null), correct = 0, wrong = 0, student = {};
 
         function start() {
-            student.name = document.getElementById('std_name').value;
-            student.email = document.getElementById('std_email').value;
-            if(!student.name || !student.email) return alert("Please enter your name and email.");
-            document.getElementById('login-gate').style.display = 'none';
-            document.getElementById('quiz-ui').style.display = 'block';
+            student = { name: document.getElementById('std_name').value, roll: document.getElementById('std_roll').value, email: document.getElementById('std_email').value };
+            if(!student.name || !student.roll || !student.email.includes('@isra.edu.pk')) return alert("Please use @isra.edu.pk email.");
+            document.getElementById('login-gate').style.display='none';
+            document.getElementById('quiz-ui').style.display='block';
             render();
         }
 
         function render() {
             const d = quizData[cur];
+            document.getElementById('progress-text').innerText = (cur + 1) + " / 4";
+            document.getElementById('correct-count').innerText = correct;
+            document.getElementById('wrong-count').innerText = wrong;
             let html = `<div class="question-text">${d.q}</div>`;
             d.options.forEach((o, i) => {
                 const isSel = state[cur] === i;
                 const cls = isSel ? (i === d.correct ? 'correct' : 'incorrect') : '';
-                html += `<div class="option-item ${cls}" onclick="select(${i})">
-                    <strong>${String.fromCharCode(65+i)}.</strong> ${o}
-                    <div class="rationale" style="display:${isSel?'block':'none'}">${d.rat}</div>
-                </div>`;
+                html += `<div class="option-item ${cls}" onclick="select(${i})"><strong>${String.fromCharCode(65+i)}.</strong> ${o}<div class="rationale" style="display:${isSel?'block':'none'}">${d.rat}</div></div>`;
             });
             document.getElementById('quiz-content').innerHTML = html;
             document.getElementById('hint-text').innerText = d.hint;
             document.getElementById('hint-box').style.display = 'none';
-            document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
-            document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
+            document.getElementById('finish-btn').style.display = (cur === 3 && state[cur] !== null) ? 'block' : 'none';
+            document.getElementById('next-btn').style.display = (cur === 3) ? 'none' : 'block';
         }
 
-        function select(i) { if(state[cur] === null) { state[cur] = i; render(); } }
-        function next() { if(cur < quizData.length-1) { cur++; render(); } }
+        function select(i) {
+            if(state[cur] === null) {
+                state[cur] = i;
+                if(i === quizData[cur].correct) correct++; else wrong++;
+                render();
+            }
+        }
+        function next() { if(cur < 3) { cur++; render(); } }
         function prev() { if(cur > 0) { cur--; render(); } }
         function showFeedback() { document.getElementById('quiz-ui').style.display='none'; document.getElementById('feedback-ui').style.display='block'; }
 
         async function submitData() {
-            const btn = document.getElementById('sub-btn');
-            btn.disabled = true; btn.innerText = "Saving to Portal...";
-            const payload = { 
-                name: student.name, 
-                email: student.email, 
-                feedback: document.getElementById('feedback_msg').value, 
-                topic: "Tongue",
-                score: state.filter((s,i)=>s===quizData[i].correct).length 
-            };
+            const payload = { ...student, topic: "Tongue", score: correct, feedback: document.getElementById('feedback_msg').value };
             try {
-                // Using your NEW App Script URL
-                await fetch('https://script.google.com/macros/s/AKfycbMfsPnpeja2_hvsRxI32onFws6gJS6fE7ccNLrrA3ySaSrMtYuKNBgO2UVCWAeVSjQDQ/exec', { 
-                    method: 'POST', 
-                    mode: 'no-cors', 
-                    body: JSON.stringify(payload) 
-                });
-                alert("Assessment successfully recorded in Prof. Baloch's sheet!");
-                window.location.href = 'index.html';
-            } catch(e) { alert("Submission failed. Check connection."); btn.disabled = false; }
+                await fetch('PASTE_YOUR_NEW_URL_HERE', { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                alert("Assessment Submitted Successfully!"); window.location.href = 'index.html';
+            } catch(e) { alert("Error connecting to sheet."); }
         }
         render();
     </script>
