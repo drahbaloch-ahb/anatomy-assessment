@@ -22,8 +22,9 @@
     <div class="quiz-container">
         <div id="login-gate">
             <h2 style="color:var(--teal)">Tongue Clinical Assessment</h2>
-            <input type="text" id="std_name" placeholder="Student Name">
-            <input type="text" id="std_roll" placeholder="Roll No">
+            <p>Isra University Clinical Portal</p>
+            <input type="text" id="std_name" placeholder="Student Full Name">
+            <input type="text" id="std_roll" placeholder="Roll No (e.g., 22BDS05)">
             <input type="email" id="std_email" placeholder="email@isra.edu.pk">
             <button class="btn" onclick="start()">Begin Assessment</button>
         </div>
@@ -48,36 +49,55 @@
 
         <div id="feedback-ui" style="display:none; text-align:center;">
             <h3>Feedback for Prof. Baloch</h3>
-            <textarea id="feedback_msg" style="width:100%; height:100px; border-radius:8px; padding:10px;" placeholder="Type feedback here..."></textarea><br><br>
-            <button class="btn" onclick="submitData()">Submit & Exit</button>
+            <textarea id="feedback_msg" style="width:100%; height:100px; border-radius:8px; padding:10px; width:100%; box-sizing:border-box;" placeholder="Type your comments here..."></textarea><br><br>
+            <button class="btn" id="sub-btn" onclick="submitData()">Submit & Exit</button>
         </div>
     </div>
 
     <script>
         const quizData = [
-            { q: "A 55-year-old male is brought to the emergency room following a mandible fracture sustained in a car accident. During a neurological exam, the physician asks the patient to protrude his tongue. The tongue is observed to deviate towards the left side. What specific structure is most likely injured?", 
-              options: ["Left hypoglossal nerve", "Right hypoglossal nerve", "Left glossopharyngeal nerve", "Right glossopharyngeal nerve", "Left lingual nerve"], correct: 0, 
-              rat: "In LMN lesions of the hypoglossal nerve, the tongue deviates to the paralyzed side due to unopposed action of the healthy side.", 
-              hint: "The tongue points to the side of the lesion." },
-            { q: "Which extrinsic muscle of the tongue is termed the 'safety muscle' because its contraction prevents the tongue from falling backward and obstructing the airway?", 
-              options: ["Hyoglossus", "Styloglossus", "Genioglossus", "Palatoglossus", "Chondroglossus"], correct: 2, 
-              rat: "Bilateral action of Genioglossus protrudes the tongue forward.", 
-              hint: "Main muscle of protrusion." },
-            { q: "A patient presents with a malignant tumor on the lateral margin of the tongue. Primary lymphatic drainage from this area would most likely go to which lymph nodes first?", 
-              options: ["Submental", "Submandibular", "Superior deep cervical", "Inferior deep cervical", "Parotid"], correct: 1, 
-              rat: "Lateral margins drain to submandibular nodes. The tip drains to submental nodes.", 
-              hint: "Nodes under the body of the mandible." },
-            { q: "A 25-year-old undergoes extraction of an impacted mandibular third molar. Afterwards, they report loss of general sensation and taste from the anterior 2/3 of the tongue. Which nerve was likely injured?", 
-              options: ["Hypoglossal nerve", "Lingual nerve", "Chorda tympani", "Glossopharyngeal nerve", "Mandibular nerve"], correct: 1, 
-              rat: "The lingual nerve carries sensation and taste (via chorda tympani) and is near the 3rd molar.", 
-              hint: "Loops under the submandibular duct." }
+            { 
+              q: "A 55-year-old male is brought to the emergency room following a mandible fracture sustained in a car accident. During a neurological exam, the physician asks the patient to protrude his tongue. The tongue is observed to deviate towards the left side. What specific structure is most likely injured?", 
+              options: ["Left hypoglossal nerve", "Right hypoglossal nerve", "Left glossopharyngeal nerve", "Right glossopharyngeal nerve", "Left lingual nerve"], 
+              correct: 0, 
+              rat: "In lower motor neuron lesions of the hypoglossal nerve, the tongue deviates towards the paralyzed side because of the unopposed action of the healthy genioglossus.", 
+              hint: "The tongue points towards the side of the lesion." 
+            },
+            { 
+              q: "Which extrinsic muscle of the tongue is termed the 'safety muscle' because its contraction prevents the tongue from falling backward and obstructing the airway?", 
+              options: ["Hyoglossus", "Styloglossus", "Genioglossus", "Palatoglossus", "Chondroglossus"], 
+              correct: 2, 
+              rat: "The genioglossus muscle protrudes the tongue forward; bilateral paralysis can allow the tongue to fall back and block the oropharynx.", 
+              hint: "Identify the fan-shaped muscle that forms the bulk of the tongue." 
+            },
+            { 
+              q: "A patient presents with a malignant tumor on the lateral margin of the tongue. Primary lymphatic drainage from this area would most likely go to which lymph nodes first?", 
+              options: ["Submental nodes", "Submandibular nodes", "Superior deep cervical nodes", "Inferior deep cervical nodes", "Parotid nodes"], 
+              correct: 1, 
+              rat: "The lateral margins drain into the submandibular lymph nodes. (The tip drains to submental, and the posterior third to deep cervical nodes).", 
+              hint: "Consider the nodes located under the body of the mandible." 
+            },
+            { 
+              q: "A 25-year-old undergoes extraction of an impacted mandibular third molar. Afterwards, they report loss of general sensation and taste from the anterior 2/3 of the tongue. Which nerve was likely injured?", 
+              options: ["Hypoglossal nerve", "Lingual nerve", "Chorda tympani", "Glossopharyngeal nerve", "Mandibular nerve"], 
+              correct: 1, 
+              rat: "The lingual nerve carries general sensation and taste (via chorda tympani) and is anatomically close to the third molar socket.", 
+              hint: "This nerve loops under the submandibular duct in the floor of the mouth." 
+            }
         ];
 
         let cur = 0, state = quizData.map(() => null), correct = 0, wrong = 0, student = {};
 
         function start() {
-            student = { name: document.getElementById('std_name').value, roll: document.getElementById('std_roll').value, email: document.getElementById('std_email').value };
-            if(!student.name || !student.roll || !student.email.includes('@isra.edu.pk')) return alert("Please use @isra.edu.pk email.");
+            student = { 
+                name: document.getElementById('std_name').value, 
+                roll: document.getElementById('std_roll').value, 
+                email: document.getElementById('std_email').value 
+            };
+            if(!student.name || !student.roll || !student.email.includes('@isra.edu.pk')) {
+                alert("Please enter Name, Roll No, and your @isra.edu.pk email.");
+                return;
+            }
             document.getElementById('login-gate').style.display='none';
             document.getElementById('quiz-ui').style.display='block';
             render();
@@ -88,15 +108,21 @@
             document.getElementById('progress-text').innerText = (cur + 1) + " / 4";
             document.getElementById('correct-count').innerText = correct;
             document.getElementById('wrong-count').innerText = wrong;
+            
             let html = `<div class="question-text">${d.q}</div>`;
             d.options.forEach((o, i) => {
                 const isSel = state[cur] === i;
                 const cls = isSel ? (i === d.correct ? 'correct' : 'incorrect') : '';
-                html += `<div class="option-item ${cls}" onclick="select(${i})"><strong>${String.fromCharCode(65+i)}.</strong> ${o}<div class="rationale" style="display:${isSel?'block':'none'}">${d.rat}</div></div>`;
+                html += `<div class="option-item ${cls}" onclick="select(${i})">
+                    <strong>${String.fromCharCode(65+i)}.</strong> ${o}
+                    <div class="rationale" style="display:${isSel?'block':'none'}">${d.rat}</div>
+                </div>`;
             });
             document.getElementById('quiz-content').innerHTML = html;
             document.getElementById('hint-text').innerText = d.hint;
             document.getElementById('hint-box').style.display = 'none';
+            
+            // Logic for buttons
             document.getElementById('finish-btn').style.display = (cur === 3 && state[cur] !== null) ? 'block' : 'none';
             document.getElementById('next-btn').style.display = (cur === 3) ? 'none' : 'block';
         }
@@ -104,23 +130,52 @@
         function select(i) {
             if(state[cur] === null) {
                 state[cur] = i;
-                if(i === quizData[cur].correct) correct++; else wrong++;
+                if(i === quizData[cur].correct) {
+                    correct++;
+                } else {
+                    wrong++;
+                }
                 render();
             }
         }
+
         function next() { if(cur < 3) { cur++; render(); } }
         function prev() { if(cur > 0) { cur--; render(); } }
-        function showFeedback() { document.getElementById('quiz-ui').style.display='none'; document.getElementById('feedback-ui').style.display='block'; }
+        
+        function showFeedback() { 
+            document.getElementById('quiz-ui').style.display='none'; 
+            document.getElementById('feedback-ui').style.display='block'; 
+        }
 
         async function submitData() {
-            const payload = { ...student, topic: "Tongue", score: correct, feedback: document.getElementById('feedback_msg').value };
+            const btn = document.getElementById('sub-btn');
+            btn.disabled = true; 
+            btn.innerText = "Saving to Portal...";
+            
+            const payload = { 
+                ...student, 
+                topic: "Tongue", 
+                score: correct, 
+                feedback: document.getElementById('feedback_msg').value 
+            };
+
             try {
-                await fetch('https://script.google.com/macros/s/AKfycbzilEQ16fP0TT6yExRKR4al0ENTQJ7j-jOrvoEYDbyo4hyK5PWQVW5vRQ_YEshE6_Hk/exec
-', { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                alert("Assessment Submitted Successfully!"); window.location.href = 'index.html';
-            } catch(e) { alert("Error connecting to sheet."); }
+                // Using your confirmed working URL
+                await fetch('https://script.google.com/macros/s/AKfycbzilEQ16fP0TT6yExRKR4al0ENTQJ7j-jOrvoEYDbyo4hyK5PWQVW5vRQ_YEshE6_Hk/exec', { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: JSON.stringify(payload) 
+                });
+                alert("Tongue Assessment successfully recorded!");
+                window.location.href = 'index.html';
+            } catch(e) { 
+                alert("Submission failed. Please check your internet."); 
+                btn.disabled = false; 
+                btn.innerText = "Submit & Exit";
+            }
         }
-        render();
+        
+        // Initial call is not needed here as it is triggered by start()
     </script>
 </body>
 </html>
