@@ -6,91 +6,78 @@
     <title>Salivary Glands Clinical - Prof. Baloch</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-        :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; }
+        :root { --bg: #f6f1e7; --ink: #171717; --teal: #1f6f78; --accent: #d3542c; --stroke: #e3d6c5; --font-display: 'Space Grotesk', sans-serif; }
         body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .quiz-container { width: 90%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 22px; border: 1px solid var(--stroke); box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
-        .question-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.4em; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
-        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; list-style: none; transition: 0.2s; }
-        .option-item.correct { background: rgba(31, 111, 120, 0.1); border-color: var(--teal); }
-        .option-item.incorrect { background: rgba(181, 72, 50, 0.1); border-color: #b54832; }
-        .rationale { font-size: 0.9em; margin-top: 8px; color: #5b5b5b; display: none; padding-top: 8px; border-top: 1px solid #eee; }
+        .quiz-container { width: 95%; max-width: 800px; padding: 30px; background: #fff7ef; border-radius: 22px; border: 1px solid var(--stroke); box-shadow: 0 18px 40px rgba(0,0,0,0.1); }
+        .question-text { font-family: var(--font-display); font-size: 1.4em; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
+        .option-item { background: #fff; border: 1px solid var(--stroke); padding: 16px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; transition: 0.2s; }
+        .option-item.correct { background: rgba(31, 111, 120, 0.1) !important; border: 2px solid var(--teal) !important; }
+        .option-item.incorrect { background: rgba(181, 72, 50, 0.1) !important; border: 2px solid #b54832 !important; }
+        .rationale { font-size: 0.95em; margin-top: 10px; color: #444; display: none; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); }
         .btn { padding: 12px 24px; border-radius: 10px; border: none; background: var(--teal); color: #fff; cursor: pointer; font-weight: 600; }
-        #login-section input { padding: 12px; width: 85%; margin-bottom: 12px; border: 1px solid var(--stroke); border-radius: 8px; }
+        textarea { width: 100%; height: 100px; padding: 12px; border-radius: 8px; border: 1px solid var(--stroke); font-family: inherit; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="login-section" style="text-align:center;">
-            <h2 style="color:var(--teal)">Isra University Portal</h2>
-            <p>Salivary Glands Clinical Module</p>
-            <input type="text" id="name" placeholder="Full Name"><br>
-            <input type="email" id="email" placeholder="student@isra.edu.pk"><br>
-            <button class="btn" onclick="startQuiz()">Enter Assessment</button>
-        </div>
-
-        <div id="quiz-ui" style="display:none;">
-            <div id="content"></div>
-            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
+        <div id="quiz-ui">
+            <div id="quiz-content"></div>
             <div style="margin-top:25px; display:flex; justify-content:space-between;">
-                <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="document.getElementById('hint-box').style.display='block'">Hint</button>
+                <button class="btn" style="background:#fff; color:var(--ink); border:1px solid var(--stroke)" onclick="toggleHint()">Hint</button>
                 <div style="display:flex; gap:10px;">
-                    <button class="btn" onclick="prev()">Previous</button>
+                    <button class="btn" id="prev-btn" onclick="prev()">Previous</button>
                     <button class="btn" id="next-btn" onclick="next()">Next</button>
-                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFeedback()">Finish & Feedback</button>
+                    <button class="btn" id="finish-btn" style="background:var(--accent); display:none;" onclick="showFeedbackScreen()">Finish & Submit Feedback</button>
                 </div>
             </div>
+            <div id="hint-box" style="display:none; margin-top:15px; padding:15px; background:#fff; border:1px solid var(--stroke); border-radius:10px;">💡 <span id="hint-text"></span></div>
         </div>
 
-        <div id="feedback" style="display:none; text-align:center;">
-            <h2 style="color:var(--teal)">Congratulations, Prof. Baloch's Student!</h2>
-            <p>You have successfully completed the Salivary Glands clinical module.</p>
-            <div style="background:white; padding:15px; border-radius:12px; border:1px solid var(--stroke); text-align:left; margin:20px 0;">
-                <strong>Clinical Pearls:</strong>
-                <ul>
-                    <li>The <b>Auriculotemporal nerve</b> is key in Frey's Syndrome.</li>
-                    <li>The <b>Lingual nerve</b> loops under the submandibular duct.</li>
-                </ul>
-            </div>
-            <button class="btn" onclick="window.location.href='index.html'">Return to Main Portal</button>
+        <div id="feedback-screen" style="display:none; text-align:center;">
+            <h2 style="color:var(--teal)">Assessment Complete</h2>
+            <p>Please provide your feedback on this clinical module:</p>
+            <textarea id="student-comment" placeholder="Type your comments or questions for Prof. Baloch here..."></textarea>
+            <br><br>
+            <button class="btn" onclick="submitFinal()">Submit and Return to Portal</button>
         </div>
     </div>
 
     <script>
         const quizData = [
-            { q: "A 45-year-old male undergoes surgery for a parotid tumor... he notices sweating on his cheek when eating (Frey's syndrome). Which nerve is responsible?", options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, hint: "Focus on secretomotor fibers.", rat: "The auriculotemporal nerve carries postganglionic parasympathetic fibers." },
-            { q: "To enter the oral vestibule, the parotid duct must pierce which muscle?", options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, hint: "Main muscle of the cheek.", rat: "The parotid duct pierces the buccinator muscle." },
-            { q: "Which of the following is located most medially within the parotid bed?", options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, hint: "Deepest structure.", rat: "The External Carotid Artery is the most medial." },
-            { q: "Which nerve loops inferiorly around the submandibular duct?", options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, hint: "Triple loop relationship.", rat: "The lingual nerve loops under the submandibular duct." }
+            { q: "A 45-year-old male undergoes surgery... he notices sweating on his cheek when eating (Frey's syndrome). Which nerve is responsible?", options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, rat: "The auriculotemporal nerve carries postganglionic parasympathetic fibers to the parotid.", hint: "Focus on secretomotor fibers." },
+            { q: "To enter the oral vestibule, the parotid duct must pierce which muscle?", options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, rat: "The parotid duct pierces the buccinator muscle opposite the 2nd upper molar.", hint: "The main muscle of the cheek." },
+            { q: "Which structure is located most medially within the parotid bed?", options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, rat: "The external carotid artery is the deepest structure passing through the gland.", hint: "Identify the deepest neurovascular element." },
+            { q: "Which nerve loops inferiorly around the submandibular duct?", options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, rat: "The lingual nerve loops under the submandibular duct to reach the tongue.", hint: "General sensation nerve for the anterior 2/3 of the tongue." }
         ];
 
         let cur = 0, state = quizData.map(() => null);
 
-        function startQuiz() {
-            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
-                document.getElementById('login-section').style.display='none';
-                document.getElementById('quiz-ui').style.display='block';
-                render();
-            } else { alert("Please use your Isra email."); }
-        }
-
         function render() {
-            const d = quizData[cur];
-            let h = `<div class="question-text">${d.q}</div>`;
-            d.options.forEach((o, i) => {
+            const data = quizData[cur];
+            let html = `<div class="question-text">${data.q}</div>`;
+            data.options.forEach((o, i) => {
                 const isSel = state[cur] === i;
-                const cls = isSel ? (i === d.correct ? 'correct' : 'incorrect') : '';
-                h += `<div class="option-item ${cls}" onclick="select(${i})">${String.fromCharCode(65+i)}. ${o}${isSel?`<div class="rationale" style="display:block">${d.rat}</div>`:''}</div>`;
+                const cls = isSel ? (i === data.correct ? 'correct' : 'incorrect') : '';
+                html += `<div class="option-item ${cls}" onclick="select(${i})">
+                    <strong>${String.fromCharCode(65+i)}.</strong> ${o}
+                    <div class="rationale" style="display:${isSel?'block':'none'}">${data.rat}</div>
+                </div>`;
             });
-            document.getElementById('content').innerHTML = h;
-            document.getElementById('hint-text').innerText = d.hint;
-            document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
+            document.getElementById('quiz-content').innerHTML = html;
+            document.getElementById('hint-text').innerText = data.hint;
+            document.getElementById('hint-box').style.display = 'none';
+            document.getElementById('prev-btn').disabled = (cur === 0);
             document.getElementById('next-btn').style.display = (cur === quizData.length-1) ? 'none' : 'inline-block';
+            document.getElementById('finish-btn').style.display = (cur === quizData.length-1 && state[cur] !== null) ? 'inline-block' : 'none';
         }
 
         function select(i) { if(state[cur] === null) { state[cur] = i; render(); } }
         function next() { if(cur < quizData.length-1) { cur++; render(); } }
         function prev() { if(cur > 0) { cur--; render(); } }
-        function showFeedback() { document.getElementById('quiz-ui').style.display='none'; document.getElementById('feedback').style.display='block'; }
+        function toggleHint() { const b = document.getElementById('hint-box'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; }
+        function showFeedbackScreen() { document.getElementById('quiz-ui').style.display = 'none'; document.getElementById('feedback-screen').style.display = 'block'; }
+        function submitFinal() { window.location.href = 'index.html'; }
+        render();
     </script>
 </body>
 </html>
