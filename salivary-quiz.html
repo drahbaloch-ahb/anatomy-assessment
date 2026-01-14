@@ -47,21 +47,24 @@
     </div>
 
     <script>
-        const quizData = [
-            {"hint":"Focus on the nerve that directly carries secretomotor fibers.","question":"A 45-year-old male undergoes parotid surgery... he notices sweating on his cheek when eating (Frey's syndrome). Which nerve is responsible?","answerOptions":[{"text":"Facial nerve"},{"isCorrect":true,"rationale":"The auriculotemporal nerve carries postganglionic parasympathetic fibers.","text":"Auriculotemporal nerve"},{"text":"Great auricular nerve"},{"text":"Glossopharyngeal nerve"},{"text":"Lingual nerve"}]},
-            {"hint":"Think of the nerve that loops inferiorly around the duct.","question":"A surgeon is performing an excision of the submandibular gland... which nerve loops inferiorly around this duct?","answerOptions":[{"text":"Hypoglossal nerve"},{"isCorrect":true,"rationale":"The lingual nerve loops underneath the submandibular duct.","text":"Lingual nerve"},{"text":"Glossopharyngeal nerve"},{"text":"Nerve to mylohyoid"},{"text":"Chorda tympani"}]}
-        ];
-
-        let currentIndex = 0;
-        let state = quizData.map(() => ({ selected: null }));
-
-        function startQuiz() {
-            if(document.getElementById('email').value.includes('@isra.edu.pk')) {
-                document.getElementById('login-gate').style.display='none';
-                document.getElementById('quiz-ui').style.display='block';
-                render();
-            } else { alert("Use Isra Email"); }
-        }
+       const quizData = [
+    { q: "A 45-year-old male undergoes surgery for a tumor within his parotid gland... he notices sweating on the skin of his cheek whenever he eats. Which nerve's regenerating parasympathetic fibers are responsible?", 
+      options: ["Facial nerve", "Auriculotemporal nerve", "Great auricular nerve", "Glossopharyngeal nerve", "Lingual nerve"], correct: 1, 
+      hint: "Focus on the nerve that directly carries the postganglionic secretomotor fibers.",
+      rat: "This nerve carries postganglionic parasympathetic fibers to the parotid gland." },
+    { q: "A diagnosis of acute parotitis is made... To enter the oral vestibule, this duct must pierce which muscle?", 
+      options: ["Masseter", "Medial pterygoid", "Buccinator", "Sternocleidomastoid", "Styloglossus"], correct: 2, 
+      hint: "Consider the muscle that constitutes the main substance of the cheek wall.",
+      rat: "After crossing the masseter, the parotid duct pierces the buccinator." },
+    { q: "During a surgical procedure... Which of the following structures is located most medially within the parotid bed?", 
+      options: ["Facial nerve", "Retromandibular vein", "External carotid artery", "Parotid lymph nodes", "Great auricular nerve"], correct: 2, 
+      hint: "Recall the arrangement from lateral to deep.",
+      rat: "This artery ascends into the gland and is the most medial." },
+    { q: "A surgeon is performing an excision of the submandibular gland... Which nerve loops inferiorly around this duct?", 
+      options: ["Hypoglossal nerve", "Lingual nerve", "Glossopharyngeal nerve", "Nerve to mylohyoid", "Chorda tympani"], correct: 1, 
+      hint: "Think of the nerve that provides general sensation to the anterior two-thirds of the tongue.",
+      rat: "The lingual nerve loops underneath the submandibular duct." }
+];
 
         function render() {
             const q = quizData[currentIndex];
