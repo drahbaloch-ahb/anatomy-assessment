@@ -1,53 +1,62 @@
 [
-    {
-        "id": "",
-        "question_text": "A 65-year-old male presents with difficulty turning his forearm and hand so that his palm faces posteriorly when starting from the anatomical position. Which specific movement is he struggling to perform?",
-        "options": [
-            "Flexion",
-            "Extension",
-            "Supination",
-            "Pronation",
-            "Abduction"
-        ],
-        "correct_answer": " D",
-        "explanation": "Difficulty with pronation can indicate issues with nerves supplying pronator muscles, such as the median nerve, or structural problems at the radioulnar joints. This movement is essential for many daily activities like turning a doorknob.",
-        "topic": "Terms of Movement and Positions",
-        "difficulty": "Medium",
-        "cognitive_level": "C2",
-        "clinical_relevance": "This movement is essential for many daily activities like turning a doorknob."
-    },
-    {
-        "id": "",
-        "question_text": "A patient with a shoulder injury is unable to move their arm away from the midline of their body. Which fundamental movement is impaired at the glenohumeral joint?",
-        "options": [
-            "Adduction",
-            " Abduction",
-            "Flexion",
-            "Extension",
-            "Medial rotation"
-        ],
-        "correct_answer": " B",
-        "explanation": "Impaired abduction, often due to rotator cuff injuries or deltoid dysfunction, significantly limits overhead reaching and arm positioning.",
-        "topic": "Terms of Movement and Positions",
-        "difficulty": "Medium",
-        "cognitive_level": "C2",
-        "clinical_relevance": "Assessing this movement helps localize the site of injury or weakness."
-    },
-    {
-        "id": "",
-        "question_text": "Raising the mandible to close the mouth.",
-        "options": [
-            "Depression",
-            " Elevation",
-            "Protraction",
-            "Retraction",
-            " Lateral excursion"
-        ],
-        "correct_answer": "B",
-        "explanation": "Elevation of the mandible is crucial for mastication and speech.",
-        "topic": "Terms of Movement and Positions",
-        "difficulty": "Medium",
-        "cognitive_level": "C1",
-        "clinical_relevance": "Impaired elevation can indicate temporomandibular joint dysfunction or muscle weakness, affecting chewing ability."
-    }
+  {
+    "question_text": "A 65-year-old male presents with difficulty turning his forearm and hand so that his palm faces posteriorly when starting from the anatomical position. Which specific movement is he struggling to perform?",
+    "options": ["Flexion", "Extension", "Supination", "Pronation", "Abduction"],
+    "correct_answer": "D",
+    "rationale": "Difficulty with pronation can indicate issues with nerves supplying pronator muscles, such as the median nerve, or structural problems at the radioulnar joints. This movement is essential for many daily activities like turning a doorknob."
+  },
+  {
+    "question_text": "A patient with a shoulder injury is unable to move their arm away from the midline of their body. Which fundamental movement is impaired at the glenohumeral joint?",
+    "options": ["Adduction", "Abduction", "Flexion", "Extension", "Medial rotation"],
+    "correct_answer": "B",
+    "rationale": "Impaired abduction, often due to rotator cuff injuries or deltoid dysfunction, significantly limits overhead reaching and arm positioning. Assessing this movement helps localize the site of injury or weakness."
+  },
+  {
+    "question_text": "Raising the mandible to close the mouth is defined as which movement?",
+    "options": ["Depression", "Elevation", "Protraction", "Retraction", "Lateral excursion"],
+    "correct_answer": "B",
+    "rationale": "Elevation of the mandible is crucial for mastication and speech. Impaired elevation can indicate temporomandibular joint (TMJ) dysfunction or muscle weakness, affecting chewing ability."
+  },
+  {
+    "question_text": "A patient is lying on the examination table facing downwards to examine the posterior aspect of the trunk. This position is termed:",
+    "options": ["Supine", "Prone", "Lateral Decubitus", "Lithotomy", "Trendelenburg"],
+    "correct_answer": "B",
+    "rationale": "The prone position is characterized by lying horizontally with the face and torso facing downwards, which is essential for examining the back or performing spinal procedures."
+  },
+  {
+    "question_text": "During a clinical procedure, a student moves the patient's arm away from the midline in the coronal plane. This movement is called:",
+    "options": ["Adduction", "Flexion", "Extension", "Abduction", "Circumduction"],
+    "correct_answer": "D",
+    "rationale": "Abduction is the movement of a limb or part away from the midline of the body in a coronal plane. Moving it toward the midline is adduction."
+  },
+  {
+    "question_text": "An anatomy student is asked to identify the plane that divides the body into equal right and left halves. This is the:",
+    "options": ["Transverse plane", "Coronal plane", "Median (Mid-sagittal) plane", "Frontal plane", "Horizontal plane"],
+    "correct_answer": "C",
+    "rationale": "The median or mid-sagittal plane is the vertical plane passing longitudinally through the center of the body, dividing it into equal right and left halves."
+  },
+  {
+    "question_text": "To visualize the structures on the palm of the hand, the forearm must be in which position?",
+    "options": ["Pronation", "Supination", "Inversion", "Eversion", "Opposition"],
+    "correct_answer": "B",
+    "rationale": "Supination is the rotational movement of the forearm that turns the palm anteriorly (in anatomical position) or upwards."
+  },
+  {
+    "question_text": "A clinician describes a lesion located on the same side of the body as another structure. The correct term to use is:",
+    "options": ["Contralateral", "Ipsilateral", "Bilateral", "Unilateral", "Intermediate"],
+    "correct_answer": "B",
+    "rationale": "Ipsilateral refers to something occurring on the same side of the body as another structure. Contralateral refers to the opposite side."
+  },
+  {
+    "question_text": "When a person stands on their 'tiptoes' to reach a high shelf, what movement is occurring at the ankle joint?",
+    "options": ["Dorsiflexion", "Plantarflexion", "Inversion", "Eversion", "Protraction"],
+    "correct_answer": "B",
+    "rationale": "Plantarflexion is the movement that decreases the angle between the sole of the foot and the back of the leg, essentially pointing the toes downward."
+  },
+  {
+    "question_text": "A surgeon makes an incision that divides the body into superior and inferior parts. This plane of section is:",
+    "options": ["Sagittal", "Frontal", "Transverse (Axial)", "Coronal", "Oblique"],
+    "correct_answer": "C",
+    "rationale": "Transverse or axial planes are horizontal planes that divide the body into upper (superior) and lower (inferior) portions."
+  }
 ]
