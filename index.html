@@ -25,7 +25,10 @@
             <div class="space-y-4">
                 <input type="text" id="student-name" placeholder="Full Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
                 <input type="email" id="student-email" placeholder="Email Address" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
-                <input type="tel" id="student-phone" placeholder="Mobile / Roll Number" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
+                <div class="flex gap-2">
+                    <input type="text" id="student-roll" placeholder="Roll No" class="w-1/2 p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
+                    <input type="tel" id="student-phone" placeholder="Mobile No" class="w-1/2 p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
+                </div>
                 <div class="pt-2">
                     <select id="topic-selector" class="w-full p-3 bg-slate-50 border rounded-xl font-bold outline-none cursor-pointer focus:ring-2 focus:ring-teal-600 text-base text-center">
                         <option value="" disabled selected>-- Select Module --</option>
@@ -33,38 +36,49 @@
                         <option value="Tongue_and_Salivary_Glands.json">👅 Tongue & Salivary Glands</option>
                     </select>
                 </div>
-                <button onclick="startAssessment()" class="w-full bg-teal-600 text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 uppercase tracking-widest">Enter Portal</button>
+                <button onclick="startAssessment()" class="w-full bg-teal-600 text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 uppercase tracking-widest transition-all">Enter Portal</button>
             </div>
         </div>
 
         <div id="quiz-content" class="hidden p-8 flex flex-col">
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex gap-2 font-bold text-xs">
-                    <div class="px-4 py-1 bg-green-50 border border-green-200 rounded-xl text-green-700" id="score-correct-live">0</div>
-                    <div class="px-4 py-1 bg-red-50 border border-red-200 rounded-xl text-red-700" id="score-wrong-live">0</div>
-                </div>
-                <div class="bg-slate-900 text-white px-4 py-1 rounded-xl font-mono font-bold text-xs" id="timer-sec">60s</div>
-            </div>
             <div id="quiz-display" class="min-h-[350px]"></div>
             <div class="mt-6 flex gap-3 border-t pt-6 no-print">
-                <button id="peek-btn" onclick="toggleAnswer()" disabled class="flex-1 bg-slate-100 text-slate-400 font-bold py-3 rounded-xl text-sm">Show Rationale</button>
-                <button id="next-btn" onclick="nextQuestion()" class="flex-[2] bg-teal-600 text-white font-black py-3 rounded-xl shadow-md">Next Question →</button>
+                <button id="next-btn" onclick="nextQuestion()" class="w-full bg-teal-600 text-white font-black py-3 rounded-xl shadow-md">Next Question →</button>
             </div>
         </div>
 
         <div id="results-screen" class="hidden p-8 text-center flex flex-col space-y-4 print-padding">
             <div id="badge-area"></div>
             <h1 class="text-xl font-black text-slate-800 uppercase tracking-tighter">Achievement Record</h1>
-            <p id="res-name" class="text-teal-600 font-bold text-lg uppercase"></p>
-            <div class="inline-block mx-auto p-4 rounded-full border-4 border-teal-50 font-black text-4xl text-teal-600" id="res-percent">0%</div>
+            
+            <p id="res-module" class="text-slate-500 font-bold text-xs uppercase tracking-widest border-b pb-2 max-w-[250px] mx-auto"></p>
+            
+            <div class="mt-2">
+                <p id="res-name" class="text-teal-600 font-black text-2xl uppercase tracking-tight"></p>
+                <p id="res-roll-display" class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1"></p>
+            </div>
+
+            <div class="flex flex-col items-center">
+                <p id="res-grade-text" class="text-2xl font-black text-slate-800 tracking-tighter mb-1"></p>
+                <div class="inline-block mx-auto p-4 rounded-full border-4 border-teal-50 font-black text-4xl text-teal-600" id="res-percent">0%</div>
+            </div>
+            
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 no-print">
                 <textarea id="feedback-txt" class="w-full p-2 border-none rounded-lg h-16 text-xs bg-white shadow-inner outline-none focus:ring-1 focus:ring-teal-500" placeholder="Enter reflective notes here..."></textarea>
                 <button onclick="submitFinalData()" class="w-full mt-1 bg-slate-800 text-white text-[9px] font-black py-2 rounded-lg uppercase tracking-widest">Submit Feedback & Score</button>
             </div>
-            <div class="flex justify-between items-end mt-4 px-4 text-left">
-                <div><p class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Date</p><p id="res-date" class="text-[11px] font-bold text-slate-700"></p></div>
-                <div class="text-right"><p class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Verified By</p><p class="signature-font text-2xl text-slate-800 leading-none">Prof. Abdul Hafeez Baloch</p></div>
+
+            <div class="flex justify-between items-end mt-6 px-4 text-left">
+                <div>
+                    <p class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Date of Completion</p>
+                    <p id="res-date" class="text-[11px] font-bold text-slate-700"></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Verified By</p>
+                    <p class="signature-font text-2xl text-slate-800 leading-none">Prof. Abdul Hafeez Baloch</p>
+                </div>
             </div>
+
             <div class="flex flex-col gap-2 no-print">
                 <button onclick="window.print()" class="w-full bg-amber-500 text-white font-black py-3 rounded-xl text-xs uppercase tracking-widest shadow-md">Download Record (PDF)</button>
                 <button onclick="location.reload()" class="w-full bg-teal-600 text-white font-black py-3 rounded-xl text-xs uppercase tracking-widest shadow-md">Retake Assessment</button>
@@ -73,60 +87,85 @@
     </div>
 
     <script>
-        let allQuestions = [], currentIndex = 0, correctCount = 0, wrongCount = 0, timeLeft = 60, timerInterval, hasSelected = false;
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7stU0sjp8sB2pWECa3Bqi4-t8I4RQSwmpc1l2cSc0KjIxusG8AZwUgXyYWF7cu1rZ/exec';
+        let allQuestions = [], currentIndex = 0, correctCount = 0;
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysfwHXhSTJkXXRF7PyUDNym_kqIGR3AAt6cVSbkiYDgNquTcPJbpaUdNfspcdZ09Vk/exec';
 
-        function startAssessment() {
+        async function startAssessment() {
             const name = document.getElementById('student-name').value;
             const email = document.getElementById('student-email').value;
+            const roll = document.getElementById('student-roll').value;
             const phone = document.getElementById('student-phone').value;
             const topic = document.getElementById('topic-selector').value;
             if(!name || !email || !topic) return alert("Complete the form.");
 
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name, email, roll: phone, topic, type: 'LOGIN_ATTEMPT' }) });
+            try { fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name, email, roll, phone, topic, type: 'LOGIN_ATTEMPT' }) }); } catch(e){}
+
+            const response = await fetch(`./${topic}`);
+            allQuestions = await response.json();
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('quiz-content').classList.remove('hidden');
-            fetch(`./${topic}`).then(res => res.json()).then(data => { allQuestions = data; displayQuestion(); });
+            displayQuestion();
         }
 
         function displayQuestion() {
-            const q = allQuestions[currentIndex]; hasSelected = false;
-            document.getElementById('peek-btn').disabled = true;
-            document.getElementById('quiz-display').innerHTML = `<h2 class="text-xl font-extrabold mb-6 text-slate-800 text-center">${q.question_text}</h2>
-                <div class="space-y-3">${q.options.map((opt, i) => `<div id="opt-${i}" onclick="selectOption(${i}, '${q.correct_answer.trim().toUpperCase()}')" class="p-3 border-2 rounded-xl bg-white cursor-pointer flex items-center font-bold text-slate-700 text-sm"><span class="w-6 h-6 flex items-center justify-center rounded-lg bg-slate-100 mr-3 text-[10px] text-slate-400 font-black">${['A','B','C','D','E'][i]}</span>${opt}</div>`).join('')}</div>
-                <div id="answer-box" class="hidden mt-4 p-4 bg-teal-50 border-l-4 border-teal-500 rounded-xl"><p class="text-[10px] font-black uppercase text-teal-900 mb-1">Rationale:</p><p class="text-xs italic text-slate-600 leading-relaxed">${q.explanation}</p></div>`;
-            startTimer();
+            const q = allQuestions[currentIndex];
+            document.getElementById('quiz-display').innerHTML = `<h2 class="text-xl font-bold mb-6 text-center text-slate-800">${q.question_text}</h2>
+                <div class="space-y-3">${q.options.map((opt, i) => `<div onclick="selectOption(${i})" class="p-4 border-2 rounded-xl hover:border-teal-500 cursor-pointer font-bold text-slate-700 transition-all">${opt}</div>`).join('')}</div>`;
         }
 
-        function startTimer() { clearInterval(timerInterval); timeLeft = 60; timerInterval = setInterval(() => { timeLeft--; document.getElementById('timer-sec').innerText = timeLeft + "s"; if(timeLeft <= 0) nextQuestion(); }, 1000); }
-
-        function selectOption(idx, correct) {
-            if(hasSelected) return; hasSelected = true; clearInterval(timerInterval);
-            const correctIdx = ['A','B','C','D','E'].indexOf(correct);
-            const divs = document.querySelectorAll('[id^="opt-"]');
-            divs.forEach(d => d.classList.add('opacity-40', 'pointer-events-none'));
-            if(idx === correctIdx) { correctCount++; document.getElementById(`opt-${idx}`).className = "p-3 border-2 rounded-xl bg-green-50 border-green-500 flex items-center shadow-md opacity-100"; }
-            else { document.getElementById(`opt-${idx}`).className = "p-3 border-2 rounded-xl bg-red-50 border-red-500 flex items-center shadow-md opacity-100"; document.getElementById(`opt-${correctIdx}`).className = "p-3 border-2 rounded-xl bg-green-50 border-green-500 flex items-center opacity-100"; }
-            document.getElementById('score-correct-live').innerText = correctCount; document.getElementById('score-wrong-live').innerText = correctCount;
-            document.getElementById('peek-btn').disabled = false; document.getElementById('peek-btn').className = "flex-1 bg-slate-800 text-white font-bold py-3 rounded-xl text-sm shadow-lg";
+        function selectOption(idx) {
+            const q = allQuestions[currentIndex];
+            if(idx === ['A','B','C','D','E'].indexOf(q.correct_answer.trim().toUpperCase())) { correctCount++; }
+            nextQuestion();
         }
 
-        function toggleAnswer() { document.getElementById('answer-box').classList.toggle('hidden'); }
-        function nextQuestion() { (currentIndex < allQuestions.length - 1) ? (currentIndex++, displayQuestion()) : showFinalResults(); }
+        function nextQuestion() {
+            if(currentIndex < allQuestions.length - 1) { currentIndex++; displayQuestion(); }
+            else { showResults(); }
+        }
 
-        function showFinalResults() {
+        function showResults() {
             document.getElementById('quiz-content').classList.add('hidden');
             document.getElementById('results-screen').classList.remove('hidden');
             const pct = Math.round((correctCount / allQuestions.length) * 100);
+            
+            // GRADE LOGIC
+            let grade = "F";
+            if (pct === 100) grade = "Grade: A+";
+            else if (pct >= 90) grade = "Grade: A";
+            else if (pct >= 75) grade = "Grade: B";
+            else if (pct >= 50) grade = "Grade: C";
+            else grade = "Grade: F";
+
+            const selector = document.getElementById('topic-selector');
+            const moduleName = selector.options[selector.selectedIndex].text;
+            
+            document.getElementById('res-module').innerText = "Module: " + moduleName;
             document.getElementById('res-name').innerText = document.getElementById('student-name').value;
+            document.getElementById('res-roll-display').innerText = "Roll No: " + document.getElementById('student-roll').value;
+            document.getElementById('res-grade-text').innerText = grade;
             document.getElementById('res-percent').innerText = pct + "%";
             document.getElementById('res-date').innerText = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-            if(pct === 100) document.getElementById('badge-area').innerHTML = `<div class="mb-2 gold-medallion w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black">100</div>`;
+            
+            if(pct === 100) document.getElementById('badge-area').innerHTML = `<div class="mb-2 gold-medallion w-20 h-20 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">100</div>`;
         }
 
         function submitFinalData() {
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name: document.getElementById('student-name').value, email: document.getElementById('student-email').value, topic: document.getElementById('topic-selector').value, score: document.getElementById('res-percent').innerText, feedback: document.getElementById('feedback-txt').value, type: 'FINAL_SCORE' }) });
-            alert('Achievement Logged.');
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify({ 
+                    name: document.getElementById('student-name').value, 
+                    email: document.getElementById('student-email').value, 
+                    roll: document.getElementById('student-roll').value, 
+                    phone: document.getElementById('student-phone').value,
+                    topic: document.getElementById('topic-selector').value, 
+                    score: document.getElementById('res-percent').innerText, 
+                    feedback: document.getElementById('feedback-txt').value, 
+                    type: 'FINAL_SCORE' 
+                }) 
+            });
+            alert('Achievement Logged, Prof. Baloch.');
         }
     </script>
 </body>
