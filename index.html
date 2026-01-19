@@ -8,19 +8,37 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Dancing+Script:wght@700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 10px; }
         #main-container { width: 100%; max-width: 750px; background: white; border-radius: 2rem; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1); border-top: 10px solid #0d9488; display: flex; flex-direction: column; overflow: hidden; }
-        .gold-medallion { background: linear-gradient(135deg, #fde047 0%, #eab308 50%, #a16207 100%); box-shadow: 0 10px 25px rgba(234, 179, 8, 0.3); border: 4px solid #fff; animation: shine 2.5s infinite ease-in-out; }
+        
+        /* CIRCULAR GOLD MEDALLION WITH STAR BORDER */
+        .gold-medallion { 
+            background: #eab308 !important; 
+            background: radial-gradient(circle, #fde047 0%, #eab308 70%, #a16207 100%) !important; 
+            box-shadow: 0 10px 25px rgba(234, 179, 8, 0.4); 
+            border: 6px double rgba(255,255,255,0.8); 
+            animation: shine 2.5s infinite ease-in-out;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        
         .signature-font { font-family: 'Dancing Script', cursive; }
-        @keyframes shine { 0%, 100% { filter: brightness(1); transform: scale(1); } 50% { filter: brightness(1.15); transform: scale(1.03); } }
-        @media print { body { background: white; padding: 0; } #main-container { border: none; box-shadow: none; width: 100%; max-width: 100%; margin: 0; } .no-print { display: none !important; } .print-padding { padding: 40px !important; } }
+        @keyframes shine { 0%, 100% { filter: brightness(1); transform: scale(1); } 50% { filter: brightness(1.1); transform: scale(1.03); } }
+        
+        @media print { 
+            body { background: white; padding: 0; } 
+            #main-container { border: none; box-shadow: none; width: 100%; max-width: 100%; margin: 0; } 
+            .no-print { display: none !important; } 
+            .print-padding { padding: 40px !important; } 
+            .gold-medallion { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
     </style>
 </head>
 <body>
     <div id="main-container">
         <div id="setup-screen" class="p-8 flex flex-col space-y-6">
             <div class="text-center">
-                <h1 class="text-3xl font-extrabold text-slate-800 tracking-tighter">Anatomy Portal</h1>
-                <p class="text-teal-600 font-bold text-base">Prof. Dr. Abdul Hafeez Baloch</p>
-                <p class="text-slate-500 text-[10px] lowercase tracking-widest font-medium">hafeez.baloch@isra.edu.pk</p>
+                <h1 class="text-3xl font-extrabold text-slate-800 tracking-tighter text-center">Anatomy Portal</h1>
+                <p class="text-teal-600 font-bold text-base text-center">Prof. Dr. Abdul Hafeez Baloch</p>
+                <p class="text-slate-500 text-[10px] lowercase tracking-widest font-medium text-center">hafeez.baloch@isra.edu.pk</p>
             </div>
             <div class="space-y-4">
                 <input type="text" id="student-name" placeholder="Full Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-teal-500 text-base">
@@ -59,9 +77,9 @@
 
         <div id="results-screen" class="hidden p-6 text-center flex flex-col space-y-3 print-padding">
             <div id="badge-area"></div>
-            <h1 class="text-xl font-black text-slate-800 uppercase tracking-tighter leading-none">Assessment Achievement Record</h1>
-            <p id="res-topic" class="text-teal-600 font-bold text-sm tracking-tight"></p>
-            <div class="mt-1">
+            <h1 class="text-xl font-black text-slate-800 uppercase tracking-tighter leading-none text-center">Assessment Achievement Record</h1>
+            <p id="res-topic" class="text-teal-600 font-bold text-sm tracking-tight text-center"></p>
+            <div class="mt-1 text-center">
                 <p id="res-name" class="text-slate-900 font-extrabold uppercase tracking-widest text-[11px]"></p>
                 <p id="res-roll-cert" class="text-slate-400 font-bold text-[9px] uppercase tracking-widest"></p>
             </div>
@@ -69,8 +87,8 @@
                 <p id="res-grade" class="text-2xl font-black tracking-tighter"></p>
                 <div class="inline-block mx-auto p-4 rounded-full border-4 border-teal-50 font-black text-4xl text-teal-600" id="res-percent">0%</div>
             </div>
-            <p id="res-performance" class="text-base font-bold italic text-slate-500 leading-none mb-1"></p>
-            <p id="res-attempts" class="text-[9px] font-bold text-teal-500 uppercase tracking-[0.2em]"></p>
+            <p id="res-performance" class="text-base font-bold italic text-slate-500 leading-none mb-1 text-center"></p>
+            <p id="res-attempts" class="text-[9px] font-bold text-teal-500 uppercase tracking-[0.2em] text-center"></p>
             <div class="flex justify-center gap-6 border-y border-slate-50 py-2">
                 <div class="text-center"><p class="text-[8px] uppercase font-black text-slate-400 tracking-widest">Correct</p><p class="text-lg font-black text-green-600" id="res-correct">0</p></div>
                 <div class="w-px h-6 bg-slate-100"></div>
@@ -136,13 +154,13 @@
                     ${currentOptions.map((opt, i) => `
                         <div id="opt-${i}" onclick="selectOption(${i})" class="p-3 border-2 rounded-xl bg-white hover:border-teal-400 cursor-pointer flex items-center shadow-sm font-bold text-slate-700 text-sm transition-all text-center">
                             <span class="w-6 h-6 flex items-center justify-center rounded-lg bg-slate-100 font-black mr-3 text-[10px] text-slate-400">${letters[i]}</span>
-                            <span class="flex-grow">${opt.text}</span>
+                            <span class="flex-grow text-center pr-6">${opt.text}</span>
                         </div>
                     `).join('')}
                 </div>
                 <div id="answer-box" class="hidden mt-4 p-4 bg-teal-50 rounded-xl border-l-4 border-teal-500 shadow-inner">
                     <p class="font-black text-teal-900 text-[10px] uppercase tracking-widest mb-1 underline">Clinical Rationale:</p>
-                    <p class="text-slate-600 italic leading-relaxed text-xs">${qExpl}</p>
+                    <p class="text-slate-600 italic leading-relaxed text-xs text-justify">${qExpl}</p>
                 </div>`;
             startTimer();
         }
@@ -182,7 +200,6 @@
             document.getElementById('quiz-content').classList.add('hidden');
             document.getElementById('results-screen').classList.remove('hidden');
             const pct = Math.round((correctCount / allQuestions.length) * 100);
-            
             const selector = document.getElementById('topic-selector');
             const moduleName = selector.options[selector.selectedIndex].text;
             
@@ -204,7 +221,14 @@
             document.getElementById('res-performance').innerText = `"${performance}"`;
 
             if(pct === 100) {
-                document.getElementById('badge-area').innerHTML = `<div class="mb-2 flex flex-col items-center"><div class="gold-medallion w-20 h-20 rounded-full flex items-center justify-center text-white text-center shadow-lg"><span class="text-3xl font-black">100</span></div></div>`;
+                document.getElementById('badge-area').innerHTML = `
+                <div class="mb-4 flex flex-col items-center">
+                    <div class="gold-medallion w-24 h-24 rounded-full flex flex-col items-center justify-center text-white text-center shadow-lg relative border-4 border-white">
+                        <span class="text-[8px] font-black uppercase tracking-[0.2em] leading-none mb-1">Excellent</span>
+                        <span class="text-4xl font-black leading-none">100</span>
+                        <div class="absolute -bottom-1 bg-white text-amber-600 text-[10px] px-3 py-0.5 rounded-full font-black tracking-tighter shadow-sm">★ ★ ★</div>
+                    </div>
+                </div>`;
                 document.getElementById('cert-btn').classList.remove('hidden');
                 localStorage.removeItem('anatomy_attempts');
             }
