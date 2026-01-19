@@ -1,0 +1,53 @@
+[
+    {
+        "id": "",
+        "question_text": "A 65-year-old male presents with difficulty turning his forearm and hand so that his palm faces posteriorly when starting from the anatomical position. Which specific movement is he struggling to perform?",
+        "options": [
+            "Flexion",
+            "Extension",
+            "Supination",
+            "Pronation",
+            "Abduction"
+        ],
+        "correct_answer": " D",
+        "explanation": "Difficulty with pronation can indicate issues with nerves supplying pronator muscles, such as the median nerve, or structural problems at the radioulnar joints. This movement is essential for many daily activities like turning a doorknob.",
+        "topic": "Terms of Movement and Positions",
+        "difficulty": "Medium",
+        "cognitive_level": "C2",
+        "clinical_relevance": "This movement is essential for many daily activities like turning a doorknob."
+    },
+    {
+        "id": "",
+        "question_text": "A patient with a shoulder injury is unable to move their arm away from the midline of their body. Which fundamental movement is impaired at the glenohumeral joint?",
+        "options": [
+            "Adduction",
+            " Abduction",
+            "Flexion",
+            "Extension",
+            "Medial rotation"
+        ],
+        "correct_answer": " B",
+        "explanation": "Impaired abduction, often due to rotator cuff injuries or deltoid dysfunction, significantly limits overhead reaching and arm positioning.",
+        "topic": "Terms of Movement and Positions",
+        "difficulty": "Medium",
+        "cognitive_level": "C2",
+        "clinical_relevance": "Assessing this movement helps localize the site of injury or weakness."
+    },
+    {
+        "id": "",
+        "question_text": "Raising the mandible to close the mouth.",
+        "options": [
+            "Depression",
+            " Elevation",
+            "Protraction",
+            "Retraction",
+            " Lateral excursion"
+        ],
+        "correct_answer": "B",
+        "explanation": "Elevation of the mandible is crucial for mastication and speech.",
+        "topic": "Terms of Movement and Positions",
+        "difficulty": "Medium",
+        "cognitive_level": "C1",
+        "clinical_relevance": "Impaired elevation can indicate temporomandibular joint dysfunction or muscle weakness, affecting chewing ability."
+    }
+]

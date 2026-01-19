@@ -1,0 +1,106 @@
+[
+    {
+        "topic": "Salivary Glands",
+        "question_text": "A patient presents with a viral infection causing profuse swelling of the gland located behind the ramus of the mandible and anterior to the SCM. Which nerve is most at risk of being compressed within the substance of this gland?",
+        "options": [
+            "Mandibular nerve",
+            "Facial nerve",
+            "Glossopharyngeal nerve",
+            "Vagus nerve",
+            "Hypoglossal nerve"
+        ],
+        "correct_answer": "B",
+        "explanation": "The parotid gland is the largest salivary gland, located behind the ramus of the mandible. The facial nerve (CN VII) is clinical significant because it divides the gland into superficial and deep lobes as it passes through it."
+    },
+    {
+        "topic": "Clinical Complications",
+        "question_text": "Following parotid surgery, a patient notices beads of perspiration on the skin covering the gland whenever they eat. This phenomenon, known as Frey's Syndrome, involves the misdirected regrowth of which nerve's fibers?",
+        "options": [
+            "Great auricular nerve",
+            "Auriculotemporal nerve",
+            "Chorda tympani",
+            "Lingual nerve",
+            "Buccal nerve"
+        ],
+        "correct_answer": "B",
+        "explanation": "In Frey’s Syndrome, parasympathetic secretomotor fibers in the auriculotemporal nerve misdirect to sweat glands in the skin during healing, causing perspiration instead of salivation during eating."
+    },
+    {
+        "topic": "Salivary Gland Anatomy",
+        "question_text": "During an intraoral examination, you observe the opening of a 5 cm long duct on the side of the frenulum of the tongue. This duct belongs to which salivary gland?",
+        "options": [
+            "Parotid gland",
+            "Submandibular gland",
+            "Sublingual gland",
+            "Minor lingual glands",
+            "Lacrimal gland"
+        ],
+        "correct_answer": "B",
+        "explanation": "The submandibular duct is approximately 5 cm long and opens into the oral cavity on the side of the frenulum of the tongue."
+    },
+    {
+        "topic": "Tongue Clinical",
+        "question_text": "A 55-year-old male is brought to the emergency room following a mandible fracture sustained in a car accident. During a neurological exam, the physician asks the patient to protrude his tongue. The tongue is observed to deviate towards the left side. What specific structure is most likely injured?",
+        "options": [
+            "Left hypoglossal nerve",
+            "Right hypoglossal nerve",
+            "Left glossopharyngeal nerve",
+            "Right glossopharyngeal nerve",
+            "Left lingual nerve"
+        ],
+        "correct_answer": "A",
+        "explanation": "In LMN lesions of the hypoglossal nerve, the tongue deviates to the paralyzed side. The healthy genioglossus on the opposite side pushes the tongue toward the weak side."
+    },
+    {
+        "topic": "Tongue Anatomy",
+        "question_text": "Which extrinsic muscle of the tongue is termed the 'safety muscle' because its contraction prevents the tongue from falling backward and obstructing the airway?",
+        "options": [
+            "Hyoglossus",
+            "Styloglossus",
+            "Genioglossus",
+            "Palatoglossus",
+            "Chondroglossus"
+        ],
+        "correct_answer": "C",
+        "explanation": "Genioglossus is the safety muscle. Its bilateral contraction pulls the tongue forward, maintaining a clear airway."
+    },
+    {
+        "topic": "Tongue Clinical",
+        "question_text": "A patient presents with a malignant tumor on the lateral margin of the tongue. Primary lymphatic drainage from this area would most likely go to which lymph nodes first?",
+        "options": [
+            "Submental nodes",
+            "Submandibular nodes",
+            "Superior deep cervical nodes",
+            "Inferior deep cervical nodes",
+            "Parotid nodes"
+        ],
+        "correct_answer": "B",
+        "explanation": "The lateral margins drain into the submandibular lymph nodes before reaching deep cervical nodes."
+    },
+    {
+        "topic": "Tongue Clinical",
+        "question_text": "A 25-year-old undergoes extraction of an impacted mandibular third molar. Afterwards, they report loss of general sensation and taste from the anterior 2/3 of the tongue. Which nerve was likely injured?",
+        "options": [
+            "Hypoglossal nerve",
+            "Lingual nerve",
+            "Chorda tympani",
+            "Glossopharyngeal nerve",
+            "Mandibular nerve"
+        ],
+        "correct_answer": "B",
+        "explanation": "The lingual nerve carries sensation and taste (via chorda tympani) and is closely related to the lower 3rd molar socket."
+    },
+    {
+        "topic": "Salivary Gland Anatomy",
+        "question_text": "During a surgical procedure to remove a tumor in the parotid gland, the surgeon must identify the structures within the gland substance. Which structure is located most medially within the parotid bed?",
+        "options": [
+            "Facial nerve",
+            "Retromandibular vein",
+            "External carotid artery",
+            "Parotid lymph nodes",
+            "Great auricular nerve"
+        ],
+        "correct_answer": "C",
+        "explanation": "The External Carotid Artery is the deepest (most medial) structure in the parotid gland."
+    }
+]
