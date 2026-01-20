@@ -1,0 +1,132 @@
+[
+  {
+    "question": "A 20-year-old male sustains a superficial abrasion on his arm that does not result in bleeding. Which of the following is the deepest layer of the specific tissue involved in this injury?",
+    "options": [
+      "Stratum basale",
+      "Stratum corneum",
+      "Papillary dermis",
+      "Stratum spinosum",
+      "Stratum granulosum"
+    ],
+    "correct_answer": "A",
+    "rationale": "The epidermis is avascular, and the stratum basale is its deepest layer resting on the basement membrane.",
+    "hint": "Identify the deepest layer of the epithelial tissue that lacks blood vessels."
+  },
+  {
+    "question": "A patient presents with a localized skin rash after using a new laundry detergent. Which cell type found primarily in the stratum spinosum is responsible for presenting antigens during this immune response?",
+    "options": [
+      "Langerhans cells",
+      "Melanocytes",
+      "Merkel cells",
+      "Keratinocytes",
+      "Dermal fibroblasts"
+    ],
+    "correct_answer": "A",
+    "rationale": "These cells are derived from mesoderm and function as antigen-presenting cells in immune responses.",
+    "hint": "This cell originates from the mesoderm and serves an immunological function."
+  },
+  {
+    "question": "A physical therapist applies firm, deep pressure to a patient's leg during a deep tissue massage. Which sensory receptor located in the reticular layer of the dermis is specifically stimulated by this action?",
+    "options": [
+      "Pacinian corpuscles",
+      "Meissner corpuscles",
+      "Free nerve endings",
+      "Merkel cells",
+      "Ruffini endings"
+    ],
+    "correct_answer": "A",
+    "rationale": "These receptors are located deep in the dermis and are specialized for detecting pressure.",
+    "hint": "Look for the receptor located in the thicker, denser, deeper portion of the dermis."
+  },
+  {
+    "question": "A surgeon is planning an elective thyroidectomy and aims to produce the most aesthetic scar possible. In which direction should the incision be made to follow the natural tension lines of the neck?",
+    "options": [
+      "Transversely",
+      "Longitudinally",
+      "Vertically",
+      "Obliquely",
+      "Curvilinearly"
+    ],
+    "correct_answer": "A",
+    "rationale": "In the neck and trunk, the tension lines (Langer lines) created by collagen fibers run transversely.",
+    "hint": "Consider the orientation of collagen bundles in the cervical region to minimize gaping."
+  },
+  {
+    "question": "A histological slide shows a skin sample measuring 400-600 μm in thickness with a prominent stratum granulosum and a visible stratum lucidum. From which anatomical site was this sample likely taken?",
+    "options": [
+      "Sole of the foot",
+      "Scalp",
+      "Forearm",
+      "Abdomen",
+      "Dorsal back"
+    ],
+    "correct_answer": "A",
+    "rationale": "Thick skin, characterized by a thickness of 400-600 μm and a distinct stratum lucidum, is found on the palms and soles.",
+    "hint": "Recall the specific locations where hairless, highly keratinized thick skin is found."
+  },
+  {
+    "question": "An adolescent male presents with inflammatory acne on his face. Which anatomical structure secretes the oily material that is primarily involved in this condition?",
+    "options": [
+      "Sebaceous glands",
+      "Merocrine sweat glands",
+      "Arrector pili muscles",
+      "Hair bulbs",
+      "Apocrine sweat glands"
+    ],
+    "correct_answer": "A",
+    "rationale": "Sebaceous glands lie in the dermis and secrete sebum into the hair follicle to preserve skin flexibility.",
+    "hint": "This gland is an epidermal appendage located in the dermis, associated with hair follicles."
+  },
+  {
+    "question": "A researcher is studying the most deeply penetrating appendages of the epidermis. Which of the following structures can extend through the full thickness of the dermis and into the superficial fascia?",
+    "options": [
+      "Sweat glands",
+      "Sebaceous glands",
+      "Hair follicles",
+      "Nail roots",
+      "Meissner corpuscles"
+    ],
+    "correct_answer": "A",
+    "rationale": "Sweat glands are long, spiral, tubular glands and are the most deeply penetrating epidermal appendages.",
+    "hint": "Identify the long, spiral, tubular gland distributed over most of the body surface."
+  },
+  {
+    "question": "An infection in the anterior compartment of the arm is prevented from spreading to the posterior compartment by a vertical partition of connective tissue. What is the specific name of this structure?",
+    "options": [
+      "Intermuscular septum",
+      "Superficial fascia",
+      "Retinacula",
+      "Aponeuroses",
+      "Camper's fascia"
+    ],
+    "correct_answer": "A",
+    "rationale": "Fibrous septa extend from deep fascia to divide limbs into distinct muscular compartments.",
+    "hint": "Focus on the extensions of the deep fascia that divide the limbs."
+  },
+  {
+    "question": "Microscopic examination of a hair follicle reveals a terminal expansion containing mitotic epithelial cells surrounding a vascular core. What is the name of this vascular core?",
+    "options": [
+      "Dermal papilla",
+      "Hair bulb",
+      "Medulla",
+      "External root sheath",
+      "Glassy membrane"
+    ],
+    "correct_answer": "A",
+    "rationale": "The dermal papilla is the highly vascular connective tissue core surrounded by the hair bulb.",
+    "hint": "Identify the specific connective tissue component that provides nutrition to the growing hair."
+  },
+  {
+    "question": "A patient with vitiligo lacks functional cells that produce melanin. In which specific layer of the epidermis are these pigment-producing cells normally located?",
+    "options": [
+      "Stratum basale",
+      "Stratum spinosum",
+      "Stratum granulosum",
+      "Stratum lucidum",
+      "Stratum corneum"
+    ],
+    "correct_answer": "A",
+    "rationale": "Melanocytes originate from neural crest cells and are present in the stratum basale.",
+    "hint": "Think of the layer that also contains mitotically active keratinocytes and Merkel cells."
+  }
+]

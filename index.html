@@ -117,22 +117,46 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysfwHXhSTJkXXRF7PyUDNym_kqIGR3AAt6cVSbkiYDgNquTcPJbpaUdNfspcdZ09Vk/exec';
         const letters = ['A', 'B', 'C', 'D', 'E'];
 
-        async function startAssessment() {
-            const name = document.getElementById('student-name').value;
-            const email = document.getElementById('student-email').value;
-            const roll = document.getElementById('student-roll').value;
-            const phone = document.getElementById('student-phone').value;
-            const topic = document.getElementById('topic-selector').value;
-            if(!name || !email || !topic) return alert("Complete the credentials.");
+       async function startAssessment() {
+    const name = document.getElementById('student-name').value.trim();
+    const email = document.getElementById('student-email').value.trim();
+    const roll = document.getElementById('student-roll').value.trim();
+    const phone = document.getElementById('student-phone').value.trim();
+    const topic = document.getElementById('topic-selector').value;
 
-            try { fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name, email, roll, phone, topic, type: 'LOGIN_ATTEMPT' }) }); } catch(e){}
+    // Email validation pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            const res = await fetch(`./${topic}`);
-            allQuestions = await res.json();
-            document.getElementById('setup-screen').classList.add('hidden');
-            document.getElementById('quiz-content').classList.remove('hidden');
-            displayQuestion();
-        }
+    // Strict Validation Checks
+    if (name.length < 3) {
+        return alert("Please enter your full name (minimum 3 characters).");
+    }
+    if (!emailPattern.test(email)) {
+        return alert("Please enter a valid email address (e.g., student@isra.edu.pk).");
+    }
+    if (!roll) {
+        return alert("Please enter your Roll Number.");
+    }
+    if (!topic) {
+        return alert("Please select a Topic / Module.");
+    }
+
+    try { 
+        fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify({ name, email, roll, phone, topic, type: 'LOGIN_ATTEMPT' }) 
+        }); 
+    } catch(e) {
+        console.log("Analytics error:", e);
+    }
+
+    const res = await fetch(`./${topic}`);
+    allQuestions = await res.json();
+    document.getElementById('setup-screen').classList.add('hidden');
+    document.getElementById('quiz-content').classList.remove('hidden');
+    displayQuestion();
+}
 
         function displayQuestion() {
             const q = allQuestions[currentIndex]; hasSelected = false;
