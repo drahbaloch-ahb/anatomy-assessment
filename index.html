@@ -8,31 +8,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Dancing+Script:wght@700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 10px; }
         #main-container { width: 100%; max-width: 750px; background: white; border-radius: 2rem; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1); border-top: 10px solid #0d9488; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* CIRCULAR GOLD MEDALLION WITH STAR BORDER */
         .gold-medallion { 
             background: #eab308 !important; 
             background: radial-gradient(circle, #fde047 0%, #eab308 70%, #a16207 100%) !important; 
             box-shadow: 0 10px 25px rgba(234, 179, 8, 0.4); 
             border: 6px double rgba(255,255,255,0.8); 
             animation: shine 2.5s infinite ease-in-out;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
+            -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
         }
-        
         .signature-font { font-family: 'Dancing Script', cursive; }
         @keyframes shine { 0%, 100% { filter: brightness(1); transform: scale(1); } 50% { filter: brightness(1.1); transform: scale(1.03); } }
-        
-        @media print { 
-            body { background: white; padding: 0; } 
-            #main-container { border: none; box-shadow: none; width: 100%; max-width: 100%; margin: 0; } 
-            .no-print { display: none !important; } 
-            .print-padding { padding: 40px !important; } 
-            .gold-medallion { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-        }
+        @media print { body { background: white; padding: 0; } #main-container { border: none; box-shadow: none; width: 100%; max-width: 100%; margin: 0; } .no-print { display: none !important; } .print-padding { padding: 40px !important; } .gold-medallion { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }
     </style>
 </head>
-<body>
+<body onload="loadQuizRegistry()">
     <div id="main-container">
         <div id="setup-screen" class="p-8 flex flex-col space-y-6">
             <div class="text-center">
@@ -50,10 +39,7 @@
                 <div class="pt-2 text-center">
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Topic / Region / Module</label>
                     <select id="topic-selector" class="w-full p-3 bg-slate-50 border rounded-xl font-bold outline-none cursor-pointer focus:ring-2 focus:ring-teal-600 text-base text-center">
-                        <option value="" disabled selected>-- Select Topic / Module --</option>
-                        <option value="Terms_of_Movement_and_Positions.json">🦴 Terms of Movement & Positions</option>
-                        <option value="Tongue_and_Salivary_Glands.json">👅 Tongue & Salivary Glands</option>
-                        <option value="basic-structure.json">🧬 Basic Structure of Body</option>
+                        <option value="" disabled selected>Loading Topics...</option>
                     </select>
                 </div>
                 <button onclick="startAssessment()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 text-lg uppercase tracking-widest transition-all">Enter Portal</button>
@@ -117,72 +103,64 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysfwHXhSTJkXXRF7PyUDNym_kqIGR3AAt6cVSbkiYDgNquTcPJbpaUdNfspcdZ09Vk/exec';
         const letters = ['A', 'B', 'C', 'D', 'E'];
 
-       async function startAssessment() {
-    const name = document.getElementById('student-name').value.trim();
-    const email = document.getElementById('student-email').value.trim();
-    const roll = document.getElementById('student-roll').value.trim();
-    const phone = document.getElementById('student-phone').value.trim();
-    const topic = document.getElementById('topic-selector').value;
+        async function loadQuizRegistry() {
+            try {
+                const response = await fetch('./quiz-registry.json');
+                const quizzes = await response.json();
+                const selector = document.getElementById('topic-selector');
+                selector.innerHTML = '<option value="" disabled selected>-- Select Topic / Module --</option>';
+                quizzes.forEach(q => {
+                    const option = document.createElement('option');
+                    option.value = q.file;
+                    option.textContent = q.title;
+                    selector.appendChild(option);
+                });
+            } catch (e) {
+                console.error("Registry load error:", e);
+                alert("Failed to load quiz list.");
+            }
+        }
 
-    // Email validation pattern
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        async function startAssessment() {
+            const name = document.getElementById('student-name').value.trim();
+            const email = document.getElementById('student-email').value.trim();
+            const roll = document.getElementById('student-roll').value.trim();
+            const phone = document.getElementById('student-phone').value.trim();
+            const topic = document.getElementById('topic-selector').value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Strict Validation Checks
-    if (name.length < 3) {
-        return alert("Please enter your full name (minimum 3 characters).");
-    }
-    if (!emailPattern.test(email)) {
-        return alert("Please enter a valid email address (e.g., student@isra.edu.pk).");
-    }
-    if (!roll) {
-        return alert("Please enter your Roll Number.");
-    }
-    if (!topic) {
-        return alert("Please select a Topic / Module.");
-    }
+            if (name.length < 3) return alert("Please enter your full name.");
+            if (!emailPattern.test(email)) return alert("Please enter a valid email.");
+            if (!roll || !topic) return alert("Complete the credentials.");
 
-    try { 
-        fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            mode: 'no-cors', 
-            body: JSON.stringify({ name, email, roll, phone, topic, type: 'LOGIN_ATTEMPT' }) 
-        }); 
-    } catch(e) {
-        console.log("Analytics error:", e);
-    }
+            try { fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name, email, roll, phone, topic, type: 'LOGIN_ATTEMPT' }) }); } catch(e){}
 
-    const res = await fetch(`./${topic}`);
-    allQuestions = await res.json();
-    document.getElementById('setup-screen').classList.add('hidden');
-    document.getElementById('quiz-content').classList.remove('hidden');
-    displayQuestion();
-}
+            const res = await fetch(`./${topic}`);
+            allQuestions = await res.json();
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('quiz-content').classList.remove('hidden');
+            displayQuestion();
+        }
 
         function displayQuestion() {
             const q = allQuestions[currentIndex]; hasSelected = false;
             document.getElementById('peek-btn').disabled = true;
             document.getElementById('peek-btn').className = "flex-1 bg-slate-100 text-slate-400 font-bold py-3 rounded-xl text-sm";
             document.getElementById('q-count').innerText = `ITEM ${currentIndex + 1} / ${allQuestions.length}`;
-            
             const qTxt = q.question_text || q.question || q.Question;
             const qExpl = q.explanation || q.rationale || q.Rationale;
             const qOpts = q.options || [q.A, q.B, q.C, q.D, q.E].filter(o => o !== undefined);
             const qCorrect = (q.correct_answer || q.Correct || "A").trim().toUpperCase();
-
             const correctText = qOpts[letters.indexOf(qCorrect)];
             currentOptions = qOpts.map(opt => ({ text: opt, isCorrect: opt === correctText }));
             currentOptions.sort(() => Math.random() - 0.5);
-            
             document.getElementById('quiz-display').innerHTML = `
                 <p class="text-xl font-extrabold text-slate-800 text-center leading-snug mb-6">${qTxt}</p>
-                <div class="space-y-3">
-                    ${currentOptions.map((opt, i) => `
-                        <div id="opt-${i}" onclick="selectOption(${i})" class="p-3 border-2 rounded-xl bg-white hover:border-teal-400 cursor-pointer flex items-center shadow-sm font-bold text-slate-700 text-sm transition-all text-center">
-                            <span class="w-6 h-6 flex items-center justify-center rounded-lg bg-slate-100 font-black mr-3 text-[10px] text-slate-400">${letters[i]}</span>
-                            <span class="flex-grow text-center pr-6">${opt.text}</span>
-                        </div>
-                    `).join('')}
-                </div>
+                <div class="space-y-3">${currentOptions.map((opt, i) => `
+                    <div id="opt-${i}" onclick="selectOption(${i})" class="p-3 border-2 rounded-xl bg-white hover:border-teal-400 cursor-pointer flex items-center shadow-sm font-bold text-slate-700 text-sm transition-all text-center">
+                        <span class="w-6 h-6 flex items-center justify-center rounded-lg bg-slate-100 font-black mr-3 text-[10px] text-slate-400">${letters[i]}</span>
+                        <span class="flex-grow text-center pr-6">${opt.text}</span>
+                    </div>`).join('')}</div>
                 <div id="answer-box" class="hidden mt-4 p-4 bg-teal-50 rounded-xl border-l-4 border-teal-500 shadow-inner">
                     <p class="font-black text-teal-900 text-[10px] uppercase tracking-widest mb-1 underline">Clinical Rationale:</p>
                     <p class="text-slate-600 italic leading-relaxed text-xs text-justify">${qExpl}</p>
@@ -194,8 +172,7 @@
             clearInterval(timerInterval); timeLeft = 60;
             document.getElementById('timer-sec').innerText = "60s";
             timerInterval = setInterval(() => {
-                timeLeft--; 
-                document.getElementById('timer-sec').innerText = timeLeft + "s";
+                timeLeft--; document.getElementById('timer-sec').innerText = timeLeft + "s";
                 if (timeLeft <= 0) { clearInterval(timerInterval); selectOption(-1); }
             }, 1000);
         }
@@ -216,18 +193,13 @@
             document.getElementById('peek-btn').className = "flex-1 bg-slate-800 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg";
         }
 
-        function nextQuestion() {
-            if (currentIndex < allQuestions.length - 1) { currentIndex++; displayQuestion(); } 
-            else { showFinalResults(); }
-        }
-
+        function nextQuestion() { if (currentIndex < allQuestions.length - 1) { currentIndex++; displayQuestion(); } else { showFinalResults(); } }
         function showFinalResults() {
             document.getElementById('quiz-content').classList.add('hidden');
             document.getElementById('results-screen').classList.remove('hidden');
             const pct = Math.round((correctCount / allQuestions.length) * 100);
             const selector = document.getElementById('topic-selector');
             const moduleName = selector.options[selector.selectedIndex].text;
-            
             document.getElementById('res-topic').innerText = "Topic: " + moduleName;
             document.getElementById('res-name').innerText = document.getElementById('student-name').value;
             document.getElementById('res-roll-cert').innerText = "Roll No: " + document.getElementById('student-roll').value;
@@ -235,53 +207,21 @@
             document.getElementById('res-correct').innerText = correctCount;
             document.getElementById('res-wrong').innerText = wrongCount;
             document.getElementById('res-date').innerText = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-            
             let grade = pct === 100 ? "A+" : pct >= 90 ? "A" : pct >= 75 ? "B" : pct >= 50 ? "C" : "F";
             let color = pct >= 90 ? "text-green-600" : pct >= 50 ? "text-teal-600" : "text-red-500";
             document.getElementById('res-grade').innerText = "Grade: " + grade;
             document.getElementById('res-grade').className = `text-3xl font-black tracking-tighter ${color}`;
-
             document.getElementById('res-attempts').innerText = (attemptCount == 1) ? "Assessment Outcome: First Attempt Success" : `Assessment Outcome: Multiple Attempts (${attemptCount})`;
             let performance = (pct === 100) ? "EXCELLENT! CLINICAL MASTERY ACHIEVED." : (pct >= 80) ? "GREAT JOB! KEEP IT UP." : (pct >= 50) ? "GOOD! WORK HARD TO IMPROVE." : "KEEP STUDYING AND TRY AGAIN!";
             document.getElementById('res-performance').innerText = `"${performance}"`;
-
             if(pct === 100) {
-                document.getElementById('badge-area').innerHTML = `
-                <div class="mb-4 flex flex-col items-center">
-                    <div class="gold-medallion w-24 h-24 rounded-full flex flex-col items-center justify-center text-white text-center shadow-lg relative border-4 border-white">
-                        <span class="text-[8px] font-black uppercase tracking-[0.2em] leading-none mb-1">Excellent</span>
-                        <span class="text-4xl font-black leading-none">100</span>
-                        <div class="absolute -bottom-1 bg-white text-amber-600 text-[10px] px-3 py-0.5 rounded-full font-black tracking-tighter shadow-sm">★ ★ ★</div>
-                    </div>
-                </div>`;
+                document.getElementById('badge-area').innerHTML = `<div class="mb-4 flex flex-col items-center"><div class="gold-medallion w-24 h-24 rounded-full flex flex-col items-center justify-center text-white text-center shadow-lg relative border-4 border-white"><span class="text-[8px] font-black uppercase tracking-[0.2em] leading-none mb-1">Excellent</span><span class="text-4xl font-black leading-none">100</span><div class="absolute -bottom-1 bg-white text-amber-600 text-[10px] px-3 py-0.5 rounded-full font-black tracking-tighter shadow-sm">★ ★ ★</div></div></div>`;
                 document.getElementById('cert-btn').classList.remove('hidden');
                 localStorage.removeItem('anatomy_attempts');
             }
         }
-
-        function submitFinalData() {
-            fetch(SCRIPT_URL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify({ 
-                    name: document.getElementById('student-name').value, 
-                    email: document.getElementById('student-email').value, 
-                    roll: document.getElementById('student-roll').value, 
-                    phone: document.getElementById('student-phone').value,
-                    topic: document.getElementById('topic-selector').value, 
-                    score: document.getElementById('res-percent').innerText, 
-                    feedback: document.getElementById('feedback-txt').value, 
-                    type: 'FINAL_SCORE' 
-                }) 
-            });
-            alert('Achievement Logged, Prof. Baloch.');
-        }
-
-        function registerRetake() {
-            localStorage.setItem('anatomy_attempts', parseInt(attemptCount) + 1);
-            location.reload();
-        }
-
+        function submitFinalData() { fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name: document.getElementById('student-name').value, email: document.getElementById('student-email').value, roll: document.getElementById('student-roll').value, phone: document.getElementById('student-phone').value, topic: document.getElementById('topic-selector').value, score: document.getElementById('res-percent').innerText, feedback: document.getElementById('feedback-txt').value, type: 'FINAL_SCORE' }) }); alert('Achievement Logged, Prof. Baloch.'); }
+        function registerRetake() { localStorage.setItem('anatomy_attempts', parseInt(attemptCount) + 1); location.reload(); }
         function toggleAnswer() { document.getElementById('answer-box').classList.toggle('hidden'); }
     </script>
 </body>
