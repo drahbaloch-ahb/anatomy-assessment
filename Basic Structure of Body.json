@@ -1,0 +1,324 @@
+[
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "The epidermis is avascular, and the stratum basale is its deepest layer resting on the basement membrane.",
+        "text": "Stratum basale"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "This is the most superficial layer of the epidermis consisting of anucleated squames.",
+        "text": "Stratum corneum"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "This layer is part of the dermis, which is highly vascular and would cause bleeding if injured.",
+        "text": "Papillary dermis"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "While part of the avascular epidermis, this layer is located superficial to the stratum basale.",
+        "text": "Stratum spinosum"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "This layer contains primarily dead keratinocytes and serves as a barrier, but is not the deepest layer of the epidermis.",
+        "text": "Stratum granulosum"
+      }
+    },
+    "answer": "A",
+    "category": "Basic Structure of Body",
+    "hint": "Identify the deepest layer of the epithelial tissue that lacks blood vessels.",
+    "question": "A $20$-year-old male sustains a superficial abrasion on his arm that does not result in bleeding. Which of the following is the deepest layer of the specific tissue involved in this injury?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "These cells are derived from mesoderm and function as antigen-presenting cells in immune responses.",
+        "text": "Langerhans cells"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "These cells produce pigment and are located in the stratum basale rather than primarily in the spinosum.",
+        "text": "Melanocytes"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "These are sensory mechanoreceptors located in small numbers within the stratum basale.",
+        "text": "Merkel cells"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "These are the structural cells of the epidermis that synthesize keratin but do not primarily function as immune antigen-presenters.",
+        "text": "Keratinocytes"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "These are fibroblasts found in the dermis that produce collagen and extracellular matrix, not epidermal immune cells.",
+        "text": "Dermal fibroblasts"
+      }
+    },
+    "answer": "A",
+    "hint": "This cell originates from the mesoderm and serves an immunological function.",
+    "question": "A patient presents with a localized skin rash after using a new laundry detergent. Which cell type found primarily in the stratum spinosum is responsible for presenting antigens during this immune response?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "These receptors are located deep in the dermis and are specialized for detecting pressure.",
+        "text": "Pacinian corpuscles"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "These are fine touch receptors found in the more superficial papillary layer of the dermis.",
+        "text": "Meissner corpuscles"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "These typically detect pain and temperature rather than specialized deep pressure.",
+        "text": "Free nerve endings"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "These are epidermal mechanoreceptors rather than deep dermal pressure receptors.",
+        "text": "Merkel cells"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "These are specialized encapsulated nerve endings found in the dermis that detect continuous pressure and vibration.",
+        "text": "Ruffini endings"
+      }
+    },
+    "answer": "A",
+    "hint": "Look for the receptor located in the thicker, denser, deeper portion of the dermis.",
+    "question": "A physical therapist applies firm, deep pressure to a patient's leg during a deep tissue massage. Which sensory receptor located in the reticular layer of the dermis is specifically stimulated by this action?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "In the neck and trunk, the tension lines (Langer lines) created by collagen fibers run transversely.",
+        "text": "Transversely"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "Longitudinal tension lines are characteristic of the limbs rather than the neck.",
+        "text": "Longitudinally"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "A vertical incision would cross the transverse tension lines, leading to increased gaping and scarring.",
+        "text": "Vertically"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "Standard tension lines in the neck are oriented horizontally/transversely to minimize skin tension.",
+        "text": "Obliquely"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "A curvilinear incision would not follow the natural tension lines and could lead to increased scarring.",
+        "text": "Curvilinearly"
+      }
+    },
+    "answer": "A",
+    "hint": "Consider the orientation of collagen bundles in the cervical region to minimize gaping.",
+    "question": "A surgeon is planning an elective thyroidectomy and aims to produce the most aesthetic scar possible. In which direction should the incision be made to follow the natural tension lines of the neck?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "Thick skin, characterized by a thickness of $400$-$600 \\mu m$ and a distinct stratum lucidum, is found on the palms and soles.",
+        "text": "Sole of the foot"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "The scalp contains thin skin characterized by hair follicles and a thinner epidermis.",
+        "text": "Scalp"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "Most of the body, including the limbs, is covered by thin skin that lacks a distinct stratum lucidum.",
+        "text": "Forearm"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "Abdominal skin is thin skin, typically measuring between $75$ and $150 \\mu m$ in thickness.",
+        "text": "Abdomen"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "The back contains thin skin with variable thickness but lacks the prominent stratum lucidum seen in thick skin.",
+        "text": "Dorsal back"
+      }
+    },
+    "answer": "A",
+    "category": "Skin and Appendages",
+    "hint": "Recall the specific locations where hairless, highly keratinized thick skin is found.",
+    "question": "A histological slide shows a skin sample measuring $500 \\mu m$ in thickness with a prominent stratum granulosum and a visible stratum lucidum. From which anatomical site was this sample likely taken?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "Sebaceous glands lie in the dermis and secrete sebum into the hair follicle to preserve skin flexibility.",
+        "text": "Sebaceous glands"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "These produce a watery secretion for thermoregulation rather than oily sebum.",
+        "text": "Merocrine sweat glands"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "These are smooth muscles that cause hair to stand up but do not have a secretory function.",
+        "text": "Arrector pili muscles"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "The hair bulb is the growth center for the hair shaft and does not secrete oily substances.",
+        "text": "Hair bulbs"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "These are specialized sweat glands found in the axillary and genital regions that produce a different type of secretion.",
+        "text": "Apocrine sweat glands"
+      }
+    },
+    "answer": "A",
+    "hint": "This gland is an epidermal appendage located in the dermis, associated with hair follicles.",
+    "question": "An adolescent male presents with inflammatory acne on his face. Which anatomical structure secretes the oily material that is primarily involved in this condition?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "Sweat glands are long, spiral, tubular glands and are the most deeply penetrating epidermal appendages.",
+        "text": "Sweat glands"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "These glands are typically located within the dermis and do not reach the superficial fascia.",
+        "text": "Sebaceous glands"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "While they extend into the dermis, they are generally not as deeply penetrating as the extremities of sweat glands.",
+        "text": "Hair follicles"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "The root of the nail is located at the proximal edge of the nail plate on the dorsal digit surfaces.",
+        "text": "Nail roots"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "These are sensory receptors located in the dermal papillae that detect fine touch and pressure.",
+        "text": "Meissner corpuscles"
+      }
+    },
+    "answer": "A",
+    "hint": "Identify the long, spiral, tubular gland distributed over most of the body surface.",
+    "question": "A researcher is studying the most deeply penetrating appendages of the epidermis. Which of the following structures can extend through the full thickness of the dermis and into the superficial fascia?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "Fibrous septa extend from deep fascia to divide limbs into distinct muscular compartments.",
+        "text": "Intermuscular septum"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "This is the subcutaneous tissue containing fat and does not form compartmentalizing partitions.",
+        "text": "Superficial fascia"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "Retinacula are thickened bands of deep fascia that form restraining bands near joints.",
+        "text": "Retinacula"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "These are flat tendons of muscles rather than investing membranes that create limb compartments.",
+        "text": "Aponeuroses"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "This is the membranous layer of superficial fascia that contains fat and does not form rigid compartments.",
+        "text": "Camper's fascia"
+      }
+    },
+    "answer": "A",
+    "hint": "Focus on the extensions of the deep fascia that divide the limbs.",
+    "question": "An infection in the anterior compartment of the arm is prevented from spreading to the posterior compartment by a vertical partition of connective tissue. What is the specific name of this structure?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "The dermal papilla is the highly vascular connective tissue core surrounded by the hair bulb.",
+        "text": "Dermal papilla"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "The hair bulb is the epithelial expansion itself, not the vascular core it surrounds.",
+        "text": "Hair bulb"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "The medulla is the innermost layer of the hair shaft derived from the follicle cells.",
+        "text": "Medulla"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "This is a structural layer of the hair follicle wall, not the vascular core at the base.",
+        "text": "External root sheath"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "This is the glassy membrane surrounding the hair follicle, not the vascular core within the bulb.",
+        "text": "Glassy membrane"
+      }
+    },
+    "answer": "A",
+    "hint": "Identify the specific connective tissue component that provides nutrition to the growing hair.",
+    "question": "Microscopic examination of a hair follicle reveals a terminal expansion containing mitotic epithelial cells surrounding a vascular core. What is the name of this vascular core?"
+  },
+  {
+    "answerOptions": {
+      "A": {
+        "isCorrect": true,
+        "rationale": "Melanocytes originate from neural crest cells and are present in the stratum basale.",
+        "text": "Stratum basale"
+      },
+      "B": {
+        "isCorrect": false,
+        "rationale": "This layer primarily contains prickle cells and Langerhans cells, not the cell bodies of melanocytes.",
+        "text": "Stratum spinosum"
+      },
+      "C": {
+        "isCorrect": false,
+        "rationale": "This layer is characterized by keratohyalin granules and is more superficial than the melanocyte location.",
+        "text": "Stratum granulosum"
+      },
+      "D": {
+        "isCorrect": false,
+        "rationale": "This is a clear, homogenous layer found only in thick skin and does not contain melanocytes.",
+        "text": "Stratum lucidum"
+      },
+      "E": {
+        "isCorrect": false,
+        "rationale": "This is the outermost layer consisting of dead, flattened keratinocytes that serves as a protective barrier.",
+        "text": "Stratum corneum"
+      }
+    },
+    "answer": "A",
+    "hint": "Think of the layer that also contains mitotically active keratinocytes and Merkel cells.",
+    "question": "A patient with vitiligo lacks functional cells that produce melanin. In which specific layer of the epidermis are these pigment-producing cells normally located?"
+  }
+]
